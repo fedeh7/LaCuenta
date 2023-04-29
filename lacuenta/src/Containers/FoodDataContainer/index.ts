@@ -1,0 +1,1 @@
+export { FoodDataContainer } from './FoodDataContainer';

@@ -1,0 +1,35 @@
+.user-card {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+
+    // background-color: blue;
+
+    padding: 16px;
+
+    .user-data {
+        // background-color: red;
+        width: 100%;
+        display: flex;
+        gap: 20px;
+        .user-name {
+        }
+        .user-money-spent {
+        }
+        .user-foods {
+        }
+        .user-to-pay {
+        }
+    }
+
+    .user-foods-checklist {
+        text-align: center;
+        .user-foods-checkbox {
+            display: inline-flex;
+            border: 1px solid white;
+            padding: 4px;
+            margin: 4px;
+        }
+    }
+}

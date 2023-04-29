@@ -1,0 +1,11 @@
+.add-food-form {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 26px;
+    .add-food-title {
+        font-weight: 700;
+        font-size: 26px;
+    }
+}

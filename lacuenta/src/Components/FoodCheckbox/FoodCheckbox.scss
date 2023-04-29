@@ -1,0 +1,9 @@
+.food-checkbox {
+    color: rgb(200, 20, 20);
+    font-size: large;
+    font-weight: 700;
+
+    &.checked {
+        color: green;
+    }
+}
