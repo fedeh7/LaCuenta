@@ -3,4 +3,16 @@
     flex-direction: column;
 
     margin-top: 25px;
+
+    .user-data-title {
+        text-align: center;
+        font-weight: 700;
+        font-size: 24px;
+        margin-bottom: 8px;
+    }
+    .user-data-card-container {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+    }
 }

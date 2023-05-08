@@ -9,9 +9,11 @@ export const UserDataContainer = () => {
     return (
         <div className="user-data-container">
             <h1 className="user-data-title">Comensales</h1>
-            {userList.map((userName: string, index: any) => {
-                return <UserCard key={index} userName={userName} />;
-            })}
+            <div className="user-data-card-container">
+                {userList.map((userName: string, index: any) => {
+                    return <UserCard key={index} userName={userName} />;
+                })}
+            </div>
         </div>
     );
 };

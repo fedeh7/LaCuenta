@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { capitalize } from '../Utils';
 import { userAndFoodInterface } from './FoodContextUtils';
 
 export interface addUserInterface {
@@ -36,9 +37,10 @@ export const useUserData = () => {
     );
     const userList = Object.keys(users);
     const addUser = ({ userName, initialMoneySpent }: addUserInterface) => {
+        const capitalizedName = capitalize(userName);
         const newUsers = {
             ...users,
-            [userName]: {
+            [capitalizedName]: {
                 initialMoneySpent: initialMoneySpent,
                 foods: {},
                 expectedPay: 0 - initialMoneySpent,

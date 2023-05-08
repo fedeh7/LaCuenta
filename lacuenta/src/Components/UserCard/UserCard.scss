@@ -1,10 +1,12 @@
+@import '../../Constants/styles.scss';
+
 .user-card {
     display: flex;
     justify-content: center;
     align-items: center;
     flex-direction: column;
 
-    // background-color: blue;
+    background-color: $dark;
 
     padding: 16px;
 
@@ -12,14 +14,23 @@
         // background-color: red;
         width: 100%;
         display: flex;
+        justify-content: center;
         gap: 20px;
         .user-name {
+            font-weight: 700;
         }
         .user-money-spent {
         }
-        .user-foods {
-        }
         .user-to-pay {
+            .to-pay-number {
+                font-weight: 700;
+            }
+            .red {
+                color: red;
+            }
+            .green {
+                color: green;
+            }
         }
     }
 

@@ -12,7 +12,6 @@ export const AddUserForm = () => {
     const { addUser, canAddUser } = useContext(UserContext);
     const { closeAllModals } = useContext(ModalContext);
 
-    // const disabled = !userName;
     const handleAddUser = () => {
         if (userName && canAddUser(userName)) {
             addUser({
@@ -49,11 +48,7 @@ export const AddUserForm = () => {
                 onChange={handleOnMoneyChange}
             />
 
-            <CustomButton
-                onClick={handleAddUser}
-                text="Agregar"
-                // disabled={disabled}
-            />
+            <CustomButton onClick={handleAddUser} text="Agregar" />
         </div>
     );
 };

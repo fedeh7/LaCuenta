@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { capitalize } from '../Utils';
 
 export interface addAndEditFoodInterface {
     foodName: string;
@@ -82,9 +83,10 @@ export const useFoodData = () => {
     const foodList = Object.keys(foods);
 
     const addFood = ({ foodName, value }: addAndEditFoodInterface) => {
+        const capitalizedName = capitalize(foodName);
         const newFoods = {
             ...foods,
-            [foodName]: {
+            [capitalizedName]: {
                 value,
                 dividedValue: 0,
                 peoplePaying: [],

@@ -5,6 +5,7 @@ import { AddUserModalButton } from './Components/AddUserModalButton';
 import { FoodDataContainer } from './Containers/FoodDataContainer';
 
 import { Modal } from './Containers/Modal';
+import { NavbarButtonsContainer } from './Containers/NavbarButtonsContainer';
 
 import { UserDataContainer } from './Containers/UserDataContainer';
 import { ModalProvider } from './Context/ModalContextProvider';
@@ -15,8 +16,7 @@ export const App = () => {
         <div className="App">
             <UserProvider>
                 <ModalProvider>
-                    <AddUserModalButton />
-                    <AddFoodModalButton />
+                    <NavbarButtonsContainer />
 
                     <UserDataContainer />
                     <FoodDataContainer />

@@ -6,14 +6,12 @@ export const InputWithLabel = ({
     labelText,
     value,
     onChange,
-    disabled = false,
 }: {
     inputType: string;
     inputName: string;
     labelText: string;
     value: string | number | undefined;
     onChange: ((e: any) => void) | (() => void);
-    disabled?: boolean;
 }) => {
     return (
         <label htmlFor={inputName} className="custom-input-with-label">
@@ -25,7 +23,6 @@ export const InputWithLabel = ({
                 id={inputName}
                 value={value}
                 onChange={onChange}
-                disabled={disabled}
             />
         </label>
     );

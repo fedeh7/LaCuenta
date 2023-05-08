@@ -12,9 +12,18 @@ export const UserCard = ({ userName }: { userName: string }) => {
         <div className="user-card">
             <div className="user-data">
                 <p className="user-name">{userName}</p>
-                <p className="user-money-spent">{initialMoneySpent}</p>
-                {/* <p className="user-foods">{foods}</p> */}
-                <p className="user-to-pay">{expectedPay}</p>
+                <p className="user-money-spent">
+                    Ya gastado: {initialMoneySpent}
+                </p>
+                <p className="user-to-pay">
+                    {expectedPay >= 0 ? 'Paga: ' : 'Recibe: '}
+                    <span
+                        className={`to-pay-number ${
+                            expectedPay >= 0 ? 'red' : 'green'
+                        }`}>
+                        {expectedPay}
+                    </span>
+                </p>
             </div>
             <div className="user-foods-checklist">
                 {/* <AddFoodToUserButton /> */}
