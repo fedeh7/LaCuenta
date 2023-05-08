@@ -1,12 +1,11 @@
 import { useContext } from 'react';
 import { UserContext } from '../../Context/UserContextProvider';
-import { AddFoodToUserButton } from '../AddFoodToUserButton';
 import { FoodCheckbox } from '../FoodCheckbox';
 import './UserCard.scss';
 
 export const UserCard = ({ userName }: { userName: string }) => {
     const { foodList, users } = useContext(UserContext);
-    const { initialMoneySpent, foods, expectedPay } = users[userName];
+    const { initialMoneySpent, expectedPay } = users[userName];
 
     return (
         <div className="user-card">
@@ -21,12 +20,11 @@ export const UserCard = ({ userName }: { userName: string }) => {
                         className={`to-pay-number ${
                             expectedPay >= 0 ? 'red' : 'green'
                         }`}>
-                        {expectedPay}
+                        {expectedPay >= 0 ? expectedPay : expectedPay * -1}
                     </span>
                 </p>
             </div>
             <div className="user-foods-checklist">
-                {/* <AddFoodToUserButton /> */}
                 {foodList.map((foodName, index) => {
                     return (
                         <div className="user-foods-checkbox" key={index}>

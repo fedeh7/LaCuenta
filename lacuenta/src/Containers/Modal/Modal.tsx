@@ -1,6 +1,6 @@
-import { useContext, useState } from 'react';
+import { useContext, useEffect, useRef, useState } from 'react';
 import { CustomButton } from '../../Components/CustomButton';
-import { InputWithLabel } from '../../Components/InputWithLabel';
+
 import {
     ADD_FOOD_MODAL_ID,
     ADD_USER_MODAL_ID,
@@ -10,7 +10,7 @@ import {
     REMOVE_USER_MODAL_ID,
 } from '../../Constants';
 import { ModalContext } from '../../Context/ModalContextProvider';
-import { UserContext } from '../../Context/UserContextProvider';
+
 import { AddFoodForm } from '../AddFoodForm';
 import { AddUserForm } from '../AddUserForm';
 import './Modal.scss';
@@ -25,17 +25,64 @@ const forms: { [dynamic: string]: JSX.Element | null } = {
     '': null,
 };
 
+// export const Modal = () => {
+//     const { currentModal, closeAllModals } = useContext(ModalContext);
+
+//     const currentForm = forms[currentModal];
+
+//     return (
+//         <div className={`modal ${!currentModal && 'hidden'}`}>
+//             <div className="modal-solid-background">
+//                 {currentForm}
+//                 <CustomButton onClick={closeAllModals} text="Salir" />
+//             </div>
+//         </div>
+//     );
+// };
+
 export const Modal = () => {
+    const ref: any = useRef(null);
+
     const { currentModal, closeAllModals } = useContext(ModalContext);
+
+    useEffect(() => {
+        if (currentModal.length > 0) {
+            console.log('muestra');
+            ref?.current?.showModal();
+        } else {
+            console.log('cierra');
+            ref?.current?.close();
+        }
+    }, [currentModal]);
+
+    useEffect(() => {
+        const currentDialog = ref.current;
+        const listener = (e: any) => {
+            const dialogDimensions = currentDialog.getBoundingClientRect();
+            if (
+                e.clientX < dialogDimensions.left ||
+                e.clientX > dialogDimensions.right ||
+                e.clientY < dialogDimensions.top ||
+                e.clientY > dialogDimensions.bottom
+            ) {
+                closeAllModals();
+            }
+        };
+        currentDialog.addEventListener('click', listener);
+
+        return () => {
+            currentDialog.removeEventListener('click', listener);
+        };
+    }, [closeAllModals, ref]);
 
     const currentForm = forms[currentModal];
 
     return (
-        <div className={`modal ${!currentModal && 'hidden'}`}>
-            <div className="modal-solid-background">
+        <dialog className="modal" ref={ref}>
+            <div className="modal-content">
                 {currentForm}
                 <CustomButton onClick={closeAllModals} text="Salir" />
             </div>
-        </div>
+        </dialog>
     );
 };
