@@ -64,7 +64,7 @@ export const useUserData = () => {
         });
 
         newExpectedPay -= initialMoneySpent;
-
+        newExpectedPay = Number(newExpectedPay.toFixed(2));
         return newExpectedPay;
     };
     const addFoodToUser = ({
