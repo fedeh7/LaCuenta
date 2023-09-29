@@ -79,7 +79,6 @@ export const EditableFoodCard = ({ food }: { food: foodInterface }) => {
                     );
                 })}
             </div>
-            <p>{food.peoplePaying}</p>
         </div>
     );
 };

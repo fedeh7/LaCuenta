@@ -7,9 +7,9 @@ import { EditableFoodCard } from '../../Components/EditableFoodCard';
 export const FoodContainer = () => {
     const { foodList, foods } = useContext(GlobalContext);
     return (
-        <div className="user-container">
-            <h1 className="user-title">Comidas</h1>
-            <div className="user-card-container">
+        <div className="food-container">
+            <h1 className="food-title">Comidas</h1>
+            <div className="food-card-container">
                 {foodList.map((foodId: string, index: any) => {
                     const food = foods[foodId];
                     return <EditableFoodCard key={index} food={food} />;

@@ -1,3 +1,4 @@
+import { useEffect, useRef, useState } from 'react';
 import './CustomInput.scss';
 
 export const CustomInput = ({
@@ -13,20 +14,34 @@ export const CustomInput = ({
     onChange: ((e: any) => void) | (() => void);
     placeholderText?: string;
 }) => {
+    const [width, setWidth] = useState(0);
+    const span = useRef<any>();
+
+    useEffect(() => {
+        if (span && span.current) {
+            setWidth(span.current.offsetWidth);
+        }
+    }, [value]);
     // const highlightOnFocus = (e: any) => {
     //     console.log('focus');
     //     e.target.select();
     // };
 
     return (
-        <input
-            className="custom-input"
-            type={inputType}
-            id={inputName}
-            value={value}
-            onChange={onChange}
-            placeholder={placeholderText}
-            // onFocus={highlightOnFocus}
-        />
+        <div className="input-wrapper">
+            <span className="hidden-horizontal-measurement" ref={span}>
+                {value}
+            </span>
+            <input
+                className="custom-input"
+                type={inputType}
+                id={inputName}
+                value={value}
+                onChange={onChange}
+                placeholder={placeholderText}
+                // onFocus={highlightOnFocus}
+                style={{ width }}
+            />
+        </div>
     );
 };

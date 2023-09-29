@@ -11,33 +11,48 @@
     padding: 16px;
 
     .user-data {
-        // background-color: red;
         width: 100%;
         display: flex;
         justify-content: center;
         gap: 20px;
+        margin-bottom: 10px;
+
         .user-name {
             display: flex;
             justify-content: center;
             align-items: center;
             font-weight: 700;
+            font-size: 20px;
+
+            min-width: 80px;
         }
         .user-money-spent {
             display: flex;
             justify-content: center;
             align-items: center;
             flex-direction: column;
+
+            min-width: 80px;
+
             .user-money-spent-title {
+                margin-bottom: 10px;
             }
             .user-money-spent-input {
                 text-align: center;
             }
         }
-        .user-to-pay {
+        .user-expected-pay {
             display: flex;
             justify-content: center;
             align-items: center;
-            .to-pay-number {
+            flex-direction: column;
+
+            min-width: 80px;
+
+            .user-expected-pay-title {
+                margin-bottom: 10px;
+            }
+            .user-expected-pay-number {
                 font-weight: 700;
             }
             .red {

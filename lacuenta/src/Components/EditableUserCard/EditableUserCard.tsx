@@ -62,15 +62,18 @@ export const EditableUserCard = ({ user }: { user: userInterface }) => {
                         />
                     </div>
                 </div>
-                <p className="user-to-pay">
-                    {expectedPay >= 0 ? 'Paga: ' : 'Recibe: '}
+                <div className="user-expected-pay">
+                    <p className="user-expected-pay-title">
+                        {expectedPay >= 0 ? 'Paga: ' : 'Recibe: '}
+                    </p>
+
                     <span
-                        className={`to-pay-number ${
+                        className={`user-expected-pay-number ${
                             expectedPay >= 0 ? 'red' : 'green'
                         }`}>
                         {expectedPay >= 0 ? expectedPay : expectedPay * -1}
                     </span>
-                </p>
+                </div>
             </div>
             <div className="user-foods-checklist">
                 {foodList.map((foodId, index) => {
