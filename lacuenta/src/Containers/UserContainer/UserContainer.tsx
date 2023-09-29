@@ -1,6 +1,4 @@
 import { useContext } from 'react';
-import { UserCard } from '../../Components/UserCard';
-import { UserContext } from '../../Context/UserContextProvider';
 import './UserContainer.scss';
 import { AddUserButton } from '../../Components/AddUserButton';
 import { GlobalContext } from '../../Context/GlobalContext';

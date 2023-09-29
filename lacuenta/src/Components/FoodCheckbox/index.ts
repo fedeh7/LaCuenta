@@ -1,1 +1,0 @@
-export { FoodCheckbox } from './FoodCheckbox';

@@ -231,35 +231,7 @@ export const GlobalContextProvider = ({
         setUsers(newUsers);
     };
 
-    // const updateFoodsValueOnUsers = ({ newUsersFoodsData }: any) => {
-    //     const newUsers = {...users};
-    //     userList.forEach((userId: any) => {
-    //         const currentUser = newUsers[userId];
-    //         currentUser.foods = newUsersFoodsData[userId]
-    //             ? newUsersFoodsData[userId]
-    //             : {};
-    //         currentUser.expectedPay = calculateUserExpectedPay({ currentUser });
-    //     });
-    //     console.log('newusers', newUsers);
-    //     console.log('newUsersFoodsData', newUsersFoodsData);
-
-    //     setUsers(newUsers);
-    // };
-
-    const updateAllAffectedUsersExpectedPay = ({
-        affectedUsers,
-    }: {
-        affectedUsers: number[];
-    }) => {
-        const newUsers = { ...users };
-        affectedUsers.forEach((userId: number) => {
-            const currentUser = newUsers[userId];
-            currentUser.expectedPay = calculateUserExpectedPay({ currentUser });
-        });
-        setUsers(newUsers);
-    };
-
-    const updateFoodDividedValueOnUsers = ({
+    const updateAffectedUsers = ({
         affectedUsers,
         foodId,
         newFoodDividedValue,
@@ -271,6 +243,7 @@ export const GlobalContextProvider = ({
                 ...currentUser.foods,
                 [foodId]: newFoodDividedValue,
             };
+            currentUser.expectedPay = calculateUserExpectedPay({ currentUser });
         });
         setUsers(newUsers);
     };
@@ -325,13 +298,10 @@ export const GlobalContextProvider = ({
             foodId,
             userId,
         });
-        updateFoodDividedValueOnUsers({
+        updateAffectedUsers({
             affectedUsers,
             foodId,
             newFoodDividedValue,
-        });
-        updateAllAffectedUsersExpectedPay({
-            affectedUsers,
         });
     };
     const disconnectUserAndFood = ({
@@ -349,13 +319,10 @@ export const GlobalContextProvider = ({
             foodId,
             newFoodDividedValue,
         });
-        updateFoodDividedValueOnUsers({
+        updateAffectedUsers({
             affectedUsers,
             foodId,
             newFoodDividedValue,
-        });
-        updateAllAffectedUsersExpectedPay({
-            affectedUsers,
         });
     };
 
@@ -368,13 +335,10 @@ export const GlobalContextProvider = ({
         if (newFoodCost) {
             const affectedUsers = foods[foodId].peoplePaying;
             const newFoodDividedValue = foods[foodId].dividedValue;
-            updateFoodDividedValueOnUsers({
+            updateAffectedUsers({
                 affectedUsers,
                 foodId,
                 newFoodDividedValue,
-            });
-            updateAllAffectedUsersExpectedPay({
-                affectedUsers,
             });
         }
     };

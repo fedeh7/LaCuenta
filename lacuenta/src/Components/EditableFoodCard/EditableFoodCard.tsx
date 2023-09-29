@@ -1,6 +1,4 @@
 import { useContext, useState } from 'react';
-import { UserContext } from '../../Context/UserContextProvider';
-import { FoodCheckbox } from '../FoodCheckbox';
 import './EditableFoodCard.scss';
 import { CustomInput } from '../CustomInput';
 import { GlobalContext } from '../../Context/GlobalContext';
