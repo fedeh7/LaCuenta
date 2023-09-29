@@ -1,0 +1,61 @@
+@import '../../Constants/styles.scss';
+
+.user-card {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+
+    background-color: $dark;
+
+    padding: 16px;
+
+    .user-data {
+        // background-color: red;
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        gap: 20px;
+        .user-name {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-weight: 700;
+        }
+        .user-money-spent {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            .user-money-spent-title {
+            }
+            .user-money-spent-input {
+                text-align: center;
+            }
+        }
+        .user-to-pay {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            .to-pay-number {
+                font-weight: 700;
+            }
+            .red {
+                color: red;
+            }
+            .green {
+                color: green;
+            }
+        }
+    }
+
+    .user-foods-checklist {
+        text-align: center;
+        .user-foods-checkbox {
+            display: inline-flex;
+            border: 1px solid white;
+            padding: 4px;
+            margin: 4px;
+        }
+    }
+}

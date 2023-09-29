@@ -7,6 +7,7 @@ import {
 } from './FoodContextUtils';
 import {
     addUserInterface,
+    editUserInterface,
     removeUserInterface,
     userInterface,
     useUserData,
@@ -19,8 +20,21 @@ interface stateInterface {
     foodList: string[];
     canAddUser: (userName: string) => boolean;
     canAddFood: ({ foodName }: { foodName: string }) => boolean;
+    canEditUser: ({
+        previousName,
+        newName,
+    }: {
+        previousName: string;
+        newName: string;
+    }) => boolean;
     addUser: ({ userName, initialMoneySpent }: addUserInterface) => void;
     addFood: ({ foodName, value }: addAndEditFoodInterface) => void;
+    editUser: ({
+        previousName,
+        newName,
+        newAmountOfMoneySpent,
+    }: editUserInterface) => void;
+
     removeUser: ({ userName }: removeUserInterface) => void;
     connectUserAndFood: ({ userName, foodName }: userAndFoodInterface) => void;
     disconnectUserAndFood: ({
@@ -36,9 +50,12 @@ const defaultState = {
     foodList: [],
     canAddUser: () => false,
     canAddFood: () => false,
+    canEditUser: () => false,
 
     addUser: () => {},
     addFood: () => {},
+
+    editUser: () => {},
 
     removeUser: () => {},
     connectUserAndFood: () => {},
@@ -65,54 +82,26 @@ export const UserProvider = ({ children }: { children: ReactNode }) => {
         removeUser,
         editUser,
         canAddUser,
+        canEditUser,
         addFoodToUser,
         removeFoodFromUser,
     } = useUserData();
 
-    // const updateMoneyToPayForUsers = () => {
-    //     userList.forEach((userName) => {
-    //         users[userName].foods.forEach((foodName) => {});
-    //     });
-    // };
-    // const updateMoneyToPayForUsers = () => {
-    //     userList.forEach((userName) => {
-    //         users[userName].foods.forEach((foodName) => {
-
-    //             foods[foodName].dividedValue
-    //         });
-    //     });
-    // };
-    // const updateMoneyToPayForUsers = ({ foodName }: { foodName: string }) => {
-
-    //     foods[foodName].peoplePaying.forEach((userName)=>{
-
-    //     })
-
-    // };
     const connectUserAndFood = ({
         userName,
         foodName,
     }: userAndFoodInterface) => {
-        // const updateRelations = () => {
-
         addUserToFood({ userName, foodName });
 
         const newFoodDividedValue = foods[foodName].dividedValue;
         const affectedUsers = foods[foodName].peoplePaying;
 
         addFoodToUser({ affectedUsers, foodName, newFoodDividedValue });
-
-        // };
-
-        // await updateRelations();
-        // updateMoneyToPayForUsers();
     };
     const disconnectUserAndFood = async ({
         userName,
         foodName,
     }: userAndFoodInterface) => {
-        // const updateRelations = () => {
-
         removeUserFromFood({ userName, foodName });
 
         const affectedUsers = foods[foodName].peoplePaying;
@@ -124,10 +113,6 @@ export const UserProvider = ({ children }: { children: ReactNode }) => {
             foodName,
             newFoodDividedValue,
         });
-
-        // };
-        // await updateRelations();
-        // updateMoneyToPayForUsers();
     };
 
     return (
@@ -136,6 +121,8 @@ export const UserProvider = ({ children }: { children: ReactNode }) => {
                 users,
                 canAddUser,
                 addUser,
+                canEditUser,
+                editUser,
                 removeUser,
                 userList,
                 addFood,
