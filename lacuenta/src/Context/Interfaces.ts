@@ -13,8 +13,8 @@ export interface userAndFoodInterface {
 
 export interface editFoodInterface {
     foodId: number;
-    newFoodName: string;
-    newFoodCost: number;
+    newFoodName?: string;
+    newFoodCost?: number;
 }
 
 export interface foodsArrayInterface {

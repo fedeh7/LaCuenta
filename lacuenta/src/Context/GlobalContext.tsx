@@ -133,18 +133,21 @@ export const GlobalContextProvider = ({
         newFoodName,
         newFoodCost,
     }: editFoodInterface) => {
-        const newFoods = {
-            ...foods,
-            [foodId]: {
-                ...foods[foodId],
-                foodName: newFoodName,
+        const newFoods = { ...foods };
+        let currentFood = newFoods[foodId];
+
+        if (newFoodName) {
+            currentFood.foodName = newFoodName;
+        }
+
+        if (newFoodCost) {
+            currentFood.foodCost = newFoodCost;
+            currentFood.dividedValue = calculateNewDividedValue({
+                peoplePaying: foods[foodId].peoplePaying,
                 foodCost: newFoodCost,
-                dividedValue: calculateNewDividedValue({
-                    peoplePaying: foods[foodId].peoplePaying,
-                    foodCost: newFoodCost,
-                }),
-            },
-        };
+            });
+        }
+
         setFoods(newFoods);
     };
 
@@ -229,7 +232,7 @@ export const GlobalContextProvider = ({
     };
 
     // const updateFoodsValueOnUsers = ({ newUsersFoodsData }: any) => {
-    //     const newUsers = users;
+    //     const newUsers = {...users};
     //     userList.forEach((userId: any) => {
     //         const currentUser = newUsers[userId];
     //         currentUser.foods = newUsersFoodsData[userId]
@@ -248,7 +251,7 @@ export const GlobalContextProvider = ({
     }: {
         affectedUsers: number[];
     }) => {
-        const newUsers = users;
+        const newUsers = { ...users };
         affectedUsers.forEach((userId: number) => {
             const currentUser = newUsers[userId];
             currentUser.expectedPay = calculateUserExpectedPay({ currentUser });
@@ -260,7 +263,7 @@ export const GlobalContextProvider = ({
         foodId,
         newFoodDividedValue,
     }: addFoodToUserInterface) => {
-        const newUsers = users;
+        const newUsers = { ...users };
         affectedUsers.forEach((userId: number) => {
             const currentUser = newUsers[userId];
             currentUser.foods = {
@@ -278,7 +281,7 @@ export const GlobalContextProvider = ({
         foodId: number;
         userId: number;
     }) => {
-        const newUsers = users;
+        const newUsers = { ...users };
         const currentUser = newUsers[userId];
         currentUser.foods = {
             ...currentUser.foods,
@@ -291,7 +294,7 @@ export const GlobalContextProvider = ({
         userId,
         foodId,
     }: removeFoodFromUserInterface) => {
-        const newUsers = users;
+        const newUsers = { ...users };
 
         delete newUsers[userId].foods[foodId];
         newUsers[userId].expectedPay = calculateUserExpectedPay({
@@ -395,10 +398,9 @@ export const GlobalContextProvider = ({
         newFoodCost,
     }: editFoodInterface) => {
         editFood({ foodId, newFoodName, newFoodCost });
-        if (newFoodCost !== foods[foodId].foodCost) {
+        if (newFoodCost) {
             const affectedUsers = foods[foodId].peoplePaying;
             const newFoodDividedValue = foods[foodId].dividedValue;
-            console.log('distinto', newFoodDividedValue);
             updateFoodDividedValueOnUsers({
                 affectedUsers,
                 foodId,
