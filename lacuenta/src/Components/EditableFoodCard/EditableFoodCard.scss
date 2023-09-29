@@ -1,0 +1,57 @@
+@import '../../Constants/styles.scss';
+
+.food-card {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+
+    background-color: $dark;
+
+    padding: 16px;
+
+    .food-data {
+        // background-color: red;
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        gap: 20px;
+        .food-name {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-weight: 700;
+        }
+        .food-money-spent {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            .food-money-spent-title {
+            }
+            .food-money-spent-input {
+                text-align: center;
+            }
+        }
+        .food-divided-value-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            .food-divided-value-title {
+            }
+            .food-divided-value {
+            }
+        }
+    }
+
+    .food-users-checklist {
+        text-align: center;
+        .food-users-checkbox {
+            display: inline-flex;
+            border: 1px solid white;
+            padding: 4px;
+            margin: 4px;
+        }
+    }
+}

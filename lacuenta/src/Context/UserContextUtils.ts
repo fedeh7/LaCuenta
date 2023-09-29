@@ -31,11 +31,25 @@ export interface removeFoodFromUserInterface {
     newFoodDividedValue: number;
 }
 
+export interface editUserInterface {
+    previousName: string;
+    newName: string;
+    newAmountOfMoneySpent: number;
+}
+
 export const useUserData = () => {
     const [users, setUsers] = useState<{ [dynamic: string]: userInterface }>(
         {},
     );
+
+    const [userIdCounter, setUserIdCounter] = useState(0);
+
     const userList = Object.keys(users);
+
+    const getNewUserId = () => {
+        setUserIdCounter(userIdCounter + 1);
+    };
+
     const addUser = ({ userName, initialMoneySpent }: addUserInterface) => {
         const capitalizedName = capitalize(userName);
         const newUsers = {
@@ -67,6 +81,7 @@ export const useUserData = () => {
         newExpectedPay = Number(newExpectedPay.toFixed(2));
         return newExpectedPay;
     };
+
     const addFoodToUser = ({
         affectedUsers,
         foodName,
@@ -90,6 +105,7 @@ export const useUserData = () => {
         // const newUsers = { ...users, [userName]: currentUser };
         setUsers(newUsers);
     };
+
     const removeFoodFromUser = ({
         userName,
         affectedUsers,
@@ -130,9 +146,39 @@ export const useUserData = () => {
 
         setUsers(currentUsers);
     };
-    const editUser = (name: string) => {};
+
+    const editUser = ({
+        previousName,
+        newName,
+        newAmountOfMoneySpent,
+    }: editUserInterface) => {
+        if (
+            newName != previousName ||
+            newAmountOfMoneySpent != users[previousName].initialMoneySpent
+        ) {
+            addUser({
+                userName: newName,
+                initialMoneySpent: newAmountOfMoneySpent,
+            });
+            removeUser({ userName: previousName });
+        }
+    };
+
     const canAddUser = (name: string) => {
         return !userList.includes(name);
+    };
+
+    const canEditUser = ({
+        previousName,
+        newName,
+    }: {
+        previousName: string;
+        newName: string;
+    }) => {
+        if (newName != previousName) {
+            return !userList.includes(newName);
+        }
+        return true;
     };
     return {
         users,
@@ -141,6 +187,7 @@ export const useUserData = () => {
         removeUser,
         editUser,
         canAddUser,
+        canEditUser,
         addFoodToUser,
         removeFoodFromUser,
     };

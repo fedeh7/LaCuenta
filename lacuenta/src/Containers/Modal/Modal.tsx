@@ -14,11 +14,12 @@ import { ModalContext } from '../../Context/ModalContextProvider';
 import { AddFoodForm } from '../AddFoodForm';
 import { AddUserForm } from '../AddUserForm';
 import './Modal.scss';
+import { EditUserForm } from '../EditUserForm';
 
 const forms: { [dynamic: string]: JSX.Element | null } = {
     [ADD_USER_MODAL_ID]: <AddUserForm />,
     [REMOVE_USER_MODAL_ID]: null,
-    [EDIT_USER_MODAL_ID]: null,
+    [EDIT_USER_MODAL_ID]: null, //Use EditUserForm
     [ADD_FOOD_MODAL_ID]: <AddFoodForm />,
     [REMOVE_FOOD_MODAL_ID]: null,
     [EDIT_FOOD_MODAL_ID]: null,
@@ -47,10 +48,8 @@ export const Modal = () => {
 
     useEffect(() => {
         if (currentModal.length > 0) {
-            console.log('muestra');
             ref?.current?.showModal();
         } else {
-            console.log('cierra');
             ref?.current?.close();
         }
     }, [currentModal]);

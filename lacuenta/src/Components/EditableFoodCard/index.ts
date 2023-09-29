@@ -1,0 +1,1 @@
+export { EditableFoodCard } from './EditableFoodCard';
