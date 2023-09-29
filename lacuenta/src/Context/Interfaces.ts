@@ -51,8 +51,8 @@ export interface removeFoodFromUserInterface {
 
 export interface editUserInterface {
     userId: number;
-    newUserName: string;
-    newInitialMoneySpent: number;
+    newUserName?: string;
+    newInitialMoneySpent?: number;
 }
 
 export interface newUsersFoodsDataInterface {

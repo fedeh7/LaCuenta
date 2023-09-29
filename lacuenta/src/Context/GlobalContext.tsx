@@ -140,7 +140,7 @@ export const GlobalContextProvider = ({
             currentFood.foodName = newFoodName;
         }
 
-        if (newFoodCost) {
+        if (newFoodCost || newFoodCost === 0) {
             currentFood.foodCost = newFoodCost;
             currentFood.dividedValue = calculateNewDividedValue({
                 peoplePaying: foods[foodId].peoplePaying,
@@ -190,12 +190,6 @@ export const GlobalContextProvider = ({
     // //     setFoods(currentFoods);
     // // };
 
-    // // const editFood = ({ foodName, value }: addAndEditFoodInterface) => {};
-
-    // // const canAddFood = ({ foodName }: { foodName: string }) => {
-    // //     return !foodList.includes(foodName);
-    // // };
-
     // FOOD FOOD FOOD FOOD FOOD FOOD FOOD FOOD FOOD FOOD FOOD FOOD FOOD FOOD FOOD FOOD FOOD FOOD FOOD FOOD FOOD FOOD FOOD FOOD FOOD FOOD FOOD FOOD FOOD FOOD FOOD FOOD FOOD FOOD FOOD FOOD FOOD FOOD FOOD FOOD FOOD FOOD FOOD FOOD FOOD FOOD FOOD FOOD FOOD FOOD FOOD FOOD FOOD FOOD FOOD FOOD FOOD FOOD FOOD FOOD FOOD FOOD FOOD FOOD FOOD FOOD FOOD FOOD FOOD
 
     // USER USER USER USER USER USER USER USER USER USER USER USER USER USER USER USER USER USER USER USER USER USER USER USER USER USER USER USER USER USER USER USER USER USER USER USER USER USER USER USER USER USER USER USER USER USER USER USER USER USER USER USER USER USER USER USER USER USER USER USER USER USER USER USER USER USER USER USER USER USER USER USER USER USER USER
@@ -220,14 +214,20 @@ export const GlobalContextProvider = ({
         newUserName,
         newInitialMoneySpent,
     }: editUserInterface) => {
-        const newUsers = {
-            ...users,
-            [userId]: {
-                ...users[userId],
-                userName: newUserName,
-                initialMoneySpent: newInitialMoneySpent,
-            },
-        };
+        const newUsers = { ...users };
+        let currentUser = newUsers[userId];
+
+        if (newUserName) {
+            currentUser.userName = newUserName;
+        }
+
+        if (newInitialMoneySpent || newInitialMoneySpent === 0) {
+            currentUser.initialMoneySpent = newInitialMoneySpent;
+            currentUser.expectedPay = calculateUserExpectedPay({
+                currentUser,
+            });
+        }
+
         setUsers(newUsers);
     };
 
@@ -256,6 +256,7 @@ export const GlobalContextProvider = ({
             const currentUser = newUsers[userId];
             currentUser.expectedPay = calculateUserExpectedPay({ currentUser });
         });
+        setUsers(newUsers);
     };
 
     const updateFoodDividedValueOnUsers = ({
@@ -310,40 +311,6 @@ export const GlobalContextProvider = ({
     // //     delete currentUsers[userName];
 
     // //     setUsers(currentUsers);
-    // // };
-
-    // // const editUser = ({
-    // //     previousName,
-    // //     newName,
-    // //     newAmountOfMoneySpent,
-    // // }: editUserInterface) => {
-    // //     if (
-    // //         newName != previousName ||
-    // //         newAmountOfMoneySpent != users[previousName].initialMoneySpent
-    // //     ) {
-    // //         addUser({
-    // //             userName: newName,
-    // //             initialMoneySpent: newAmountOfMoneySpent,
-    // //         });
-    // //         removeUser({ userName: previousName });
-    // //     }
-    // // };
-
-    // // const canAddUser = (name: string) => {
-    // //     return !userList.includes(name);
-    // // };
-
-    // // const canEditUser = ({
-    // //     previousName,
-    // //     newName,
-    // // }: {
-    // //     previousName: string;
-    // //     newName: string;
-    // // }) => {
-    // //     if (newName != previousName) {
-    // //         return !userList.includes(newName);
-    // //     }
-    // //     return true;
     // // };
 
     // USER USER USER USER USER USER USER USER USER USER USER USER USER USER USER USER USER USER USER USER USER USER USER USER USER USER USER USER USER USER USER USER USER USER USER USER USER USER USER USER USER USER USER USER USER USER USER USER USER USER USER USER USER USER USER USER USER USER USER USER USER USER USER USER USER USER USER USER USER USER USER USER USER USER USER

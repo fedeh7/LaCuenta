@@ -17,14 +17,15 @@ export const EditableUserCard = ({ user }: { user: userInterface }) => {
     };
 
     const handleOnMoneyChange = (e: any) => {
+        const valueToSend = e.target.value ? e.target.value : 0;
         updateUserData({
-            newInitialMoneySpent: e.target.value,
+            newInitialMoneySpent: valueToSend,
         });
     };
 
     const updateUserData = ({
-        newUserName = userName,
-        newInitialMoneySpent = initialMoneySpent,
+        newUserName,
+        newInitialMoneySpent,
     }: {
         newUserName?: any;
         newInitialMoneySpent?: any;
