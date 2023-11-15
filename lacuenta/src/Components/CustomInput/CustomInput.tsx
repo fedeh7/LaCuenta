@@ -24,10 +24,9 @@ export const CustomInput = ({
             setWidth(newWidth);
         }
     }, [value]);
-    // const highlightOnFocus = (e: any) => {
-    //     console.log('focus');
-    //     e.target.select();
-    // };
+    const highlightOnFocus = (e: any) => {
+        e.target.select();
+    };
 
     return (
         <div className="input-wrapper">
@@ -41,7 +40,8 @@ export const CustomInput = ({
                 value={value}
                 onChange={onChange}
                 placeholder={placeholderText}
-                // onFocus={highlightOnFocus}
+                // Using onFocus instead of onClick opens right mouse context menu for some reason
+                onClick={highlightOnFocus}
                 style={{ width }}
             />
         </div>
