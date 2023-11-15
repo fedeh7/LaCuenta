@@ -1,1 +1,0 @@
-export { AddFoodButton } from './AddFoodButton';

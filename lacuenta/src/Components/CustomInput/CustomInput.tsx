@@ -19,7 +19,9 @@ export const CustomInput = ({
 
     useEffect(() => {
         if (span && span.current) {
-            setWidth(span.current.offsetWidth);
+            const newWidth =
+                span.current.offsetWidth >= 90 ? span.current.offsetWidth : 90;
+            setWidth(newWidth);
         }
     }, [value]);
     // const highlightOnFocus = (e: any) => {

@@ -1,11 +1,15 @@
 import { useContext } from 'react';
 import './FoodContainer.scss';
 import { GlobalContext } from '../../Context/GlobalContext';
-import { AddFoodButton } from '../../Components/AddFoodButton';
+import { AddNewItemButton } from '../../Components/AddNewItemButton';
 import { EditableFoodCard } from '../../Components/EditableFoodCard';
 
 export const FoodContainer = () => {
-    const { foodList, foods } = useContext(GlobalContext);
+    const { foodList, foods, addFood } = useContext(GlobalContext);
+
+    const handleAddFood = () => {
+        addFood();
+    };
     return (
         <div className="food-container">
             <h1 className="food-title">Comidas</h1>
@@ -15,7 +19,7 @@ export const FoodContainer = () => {
                     return <EditableFoodCard key={index} food={food} />;
                 })}
             </div>
-            <AddFoodButton />
+            <AddNewItemButton onClick={handleAddFood} />
         </div>
     );
 };

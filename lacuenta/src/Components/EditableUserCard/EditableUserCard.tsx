@@ -1,4 +1,4 @@
-import { useContext, useState } from 'react';
+import { useContext } from 'react';
 import { CustomInput } from '../CustomInput';
 import { GlobalContext } from '../../Context/GlobalContext';
 import { ConnectorCheckbox } from '../ConnectorCheckbox';
@@ -17,9 +17,8 @@ export const EditableUserCard = ({ user }: { user: userInterface }) => {
     };
 
     const handleOnMoneyChange = (e: any) => {
-        const valueToSend = e.target.value ? e.target.value : 0;
         updateUserData({
-            newInitialMoneySpent: valueToSend,
+            newInitialMoneySpent: e.target.value,
         });
     };
 
@@ -58,7 +57,7 @@ export const EditableUserCard = ({ user }: { user: userInterface }) => {
                             inputType="number"
                             onChange={handleOnMoneyChange}
                             value={initialMoneySpent}
-                            placeholderText="Unknown"
+                            placeholderText="No money"
                         />
                     </div>
                 </div>

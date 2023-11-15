@@ -1,12 +1,15 @@
 import { useContext } from 'react';
 import './UserContainer.scss';
-import { AddUserButton } from '../../Components/AddUserButton';
 import { GlobalContext } from '../../Context/GlobalContext';
 import { EditableUserCard } from '../../Components/EditableUserCard';
+import { AddNewItemButton } from '../../Components/AddNewItemButton';
 
 export const UserContainer = () => {
-    const { userList, users } = useContext(GlobalContext);
+    const { userList, users, addUser } = useContext(GlobalContext);
 
+    const handleAddUser = () => {
+        addUser();
+    };
     return (
         <div className="user-container">
             <h1 className="user-title">Comensales</h1>
@@ -16,7 +19,7 @@ export const UserContainer = () => {
                     return <EditableUserCard key={index} user={user} />;
                 })}
             </div>
-            <AddUserButton />
+            <AddNewItemButton onClick={handleAddUser} />
         </div>
     );
 };

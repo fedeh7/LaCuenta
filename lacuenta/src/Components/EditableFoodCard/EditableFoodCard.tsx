@@ -16,9 +16,8 @@ export const EditableFoodCard = ({ food }: { food: foodInterface }) => {
     };
 
     const handleOnCostChange = (e: any) => {
-        const valueToSend = e.target.value ? e.target.value : 0;
         updateFoodData({
-            newFoodCost: valueToSend,
+            newFoodCost: e.target.value,
         });
     };
 

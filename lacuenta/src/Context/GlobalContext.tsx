@@ -16,12 +16,15 @@ const calculateUserExpectedPay = ({
     currentUser: userInterface;
 }) => {
     const currentFoodsValues = Object.values(currentUser.foods);
-    const initialMoneySpent = currentUser.initialMoneySpent;
+    const initialMoneySpent = currentUser.initialMoneySpent
+        ? currentUser.initialMoneySpent
+        : 0;
 
     let newExpectedPay = 0;
 
     currentFoodsValues.forEach((foodValue) => {
-        newExpectedPay += foodValue;
+        const realFoodValue = foodValue ? foodValue : 0;
+        newExpectedPay += realFoodValue;
     });
 
     newExpectedPay -= initialMoneySpent;
@@ -37,8 +40,9 @@ const calculateNewDividedValue = ({
     foodCost: number;
 }) => {
     let newFoodCost = 0;
+    const totalValue = foodCost ? foodCost : 0;
     if (peoplePaying.length) {
-        newFoodCost = foodCost / peoplePaying.length;
+        newFoodCost = totalValue / peoplePaying.length;
     }
     newFoodCost = Number(newFoodCost.toFixed(2));
     return newFoodCost;
@@ -136,11 +140,11 @@ export const GlobalContextProvider = ({
         const newFoods = { ...foods };
         let currentFood = newFoods[foodId];
 
-        if (newFoodName) {
+        if (newFoodName != undefined) {
             currentFood.foodName = newFoodName;
         }
 
-        if (newFoodCost || newFoodCost === 0) {
+        if (newFoodCost != undefined) {
             currentFood.foodCost = newFoodCost;
             currentFood.dividedValue = calculateNewDividedValue({
                 peoplePaying: foods[foodId].peoplePaying,
@@ -217,11 +221,11 @@ export const GlobalContextProvider = ({
         const newUsers = { ...users };
         let currentUser = newUsers[userId];
 
-        if (newUserName) {
+        if (newUserName != undefined) {
             currentUser.userName = newUserName;
         }
 
-        if (newInitialMoneySpent || newInitialMoneySpent === 0) {
+        if (newInitialMoneySpent != undefined) {
             currentUser.initialMoneySpent = newInitialMoneySpent;
             currentUser.expectedPay = calculateUserExpectedPay({
                 currentUser,
@@ -332,7 +336,7 @@ export const GlobalContextProvider = ({
         newFoodCost,
     }: editFoodInterface) => {
         editFood({ foodId, newFoodName, newFoodCost });
-        if (newFoodCost) {
+        if (newFoodCost != undefined) {
             const affectedUsers = foods[foodId].peoplePaying;
             const newFoodDividedValue = foods[foodId].dividedValue;
             updateAffectedUsers({
