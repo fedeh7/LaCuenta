@@ -4,6 +4,7 @@ import { GlobalContext } from '../../Context/GlobalContext';
 import { ConnectorCheckbox } from '../ConnectorCheckbox';
 import './EditableUserCard.scss';
 import { userInterface } from '../../Context/Interfaces';
+import { Card } from '../Card';
 
 export const EditableUserCard = ({ user }: { user: userInterface }) => {
     const { editUser, foodList, foods } = useContext(GlobalContext);
@@ -36,57 +37,36 @@ export const EditableUserCard = ({ user }: { user: userInterface }) => {
         });
     };
 
+    const checkboxList = foodList.map((foodId, index) => {
+        return (
+            <div className="user-foods-checkbox" key={index}>
+                <ConnectorCheckbox
+                    foodId={Number(foodId)}
+                    userId={userId}
+                    checkboxText={foods[foodId].foodName}
+                />
+            </div>
+        );
+    });
+
+    const moneyToPayTitle = expectedPay >= 0 ? 'Paga: ' : 'Recibe: ';
+    const moneyToPayAmount = expectedPay >= 0 ? expectedPay : expectedPay * -1;
+    const cssClassSpecialValue = expectedPay >= 0 ? 'red' : 'green';
+
     return (
-        <div className="user-card">
-            <div className="user-data">
-                <div className="user-name">
-                    <CustomInput
-                        inputName={`userName-${userId}`}
-                        inputType="text"
-                        onChange={handleOnNameChange}
-                        value={userName}
-                        placeholderText="Unknown"
-                    />
-                </div>
-
-                <div className="user-money-spent">
-                    <p className="user-money-spent-title">Ya gastado:</p>
-                    <div className="user-money-spent-input">
-                        <CustomInput
-                            inputName={`userInitialMoney-${userId}`}
-                            inputType="number"
-                            onChange={handleOnMoneyChange}
-                            value={initialMoneySpent}
-                            placeholderText="No money"
-                        />
-                    </div>
-                </div>
-                <div className="user-expected-pay">
-                    <p className="user-expected-pay-title">
-                        {expectedPay >= 0 ? 'Paga: ' : 'Recibe: '}
-                    </p>
-
-                    <span
-                        className={`user-expected-pay-number ${
-                            expectedPay >= 0 ? 'red' : 'green'
-                        }`}>
-                        {expectedPay >= 0 ? expectedPay : expectedPay * -1}
-                    </span>
-                </div>
-            </div>
-            <div className="user-foods-checklist">
-                {foodList.map((foodId, index) => {
-                    return (
-                        <div className="user-foods-checkbox" key={index}>
-                            <ConnectorCheckbox
-                                foodId={Number(foodId)}
-                                userId={userId}
-                                checkboxText={foods[foodId].foodName}
-                            />
-                        </div>
-                    );
-                })}
-            </div>
-        </div>
+        <Card
+            itemType="user"
+            Id={userId}
+            handleOnItemNameChange={handleOnNameChange}
+            itemName={userName}
+            itemMoneyTitle="Ya gastado:"
+            handleOnItemMoneyChange={handleOnMoneyChange}
+            itemMoneyValue={initialMoneySpent}
+            itemMoneyPlaceholderValue="No money"
+            itemSpecialValueTitle={moneyToPayTitle}
+            itemSpecialValueAmount={moneyToPayAmount}
+            checkboxList={checkboxList}
+            cssClassSpecialValue={cssClassSpecialValue}
+        />
     );
 };
