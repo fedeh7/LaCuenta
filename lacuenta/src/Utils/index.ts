@@ -1,5 +1,3 @@
-import { useEffect } from 'react';
-
 let idCounter = 0;
 
 export const getNewId = () => {
