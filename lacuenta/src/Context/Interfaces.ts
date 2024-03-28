@@ -77,8 +77,6 @@ export interface stateInterface {
         newFoodName,
         newFoodCost,
     }: editFoodInterface) => void;
-    addUserToFood: ({ userId, foodId }: userAndFoodInterface) => void;
-    removeUserFromFood: ({ userId, foodId }: userAndFoodInterface) => void;
 
     connectUserAndFood: ({ userId, foodId }: userAndFoodInterface) => void;
     disconnectUserAndFood: ({ userId, foodId }: userAndFoodInterface) => void;
