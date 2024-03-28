@@ -156,21 +156,24 @@ export const GlobalContextProvider = ({
     };
 
     const addUserToFood = ({ userId, foodId }: userAndFoodInterface) => {
-        const currentFood = foods[foodId];
+        const newFoods = {
+            ...foods,
+        };
+        const currentFood = newFoods[foodId];
 
         currentFood.peoplePaying.push(userId);
         currentFood.dividedValue = calculateNewDividedValue({
             foodCost: currentFood.foodCost,
             peoplePaying: currentFood.peoplePaying,
         });
-        const newFoods = {
-            ...foods,
-            [foodId]: currentFood,
-        };
+
         setFoods(newFoods);
     };
     const removeUserFromFood = ({ userId, foodId }: userAndFoodInterface) => {
-        const currentFood = foods[foodId];
+        const newFoods = {
+            ...foods,
+        };
+        const currentFood = newFoods[foodId];
 
         currentFood.peoplePaying = currentFood.peoplePaying.filter(
             (payingUser) => payingUser !== userId,
@@ -179,10 +182,7 @@ export const GlobalContextProvider = ({
             foodCost: currentFood.foodCost,
             peoplePaying: currentFood.peoplePaying,
         });
-        const newFoods = {
-            ...foods,
-            [foodId]: currentFood,
-        };
+
         setFoods(newFoods);
     };
 
@@ -358,7 +358,6 @@ export const GlobalContextProvider = ({
                 foods,
                 foodList,
                 addFood,
-                // editFood,
                 addUserToFood,
                 removeUserFromFood,
 
