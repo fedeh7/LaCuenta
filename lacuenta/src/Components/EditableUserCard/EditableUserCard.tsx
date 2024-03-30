@@ -6,10 +6,10 @@ import './EditableUserCard.scss';
 import { userInterface } from '../../Context/Interfaces';
 import { Card } from '../Card';
 
-export const EditableUserCard = ({ user }: { user: userInterface }) => {
-    const { editUser, foodList, foods } = useContext(GlobalContext);
-
-    const { userId, userName, initialMoneySpent, expectedPay } = user;
+export const EditableUserCard = ({ userId }: { userId: number }) => {
+    console.log('User Card', userId);
+    const { editUser, foodList, foods, users } = useContext(GlobalContext);
+    const { userName, initialMoneySpent, expectedPay } = users[userId];
 
     const handleOnNameChange = (e: any) => {
         updateUserData({

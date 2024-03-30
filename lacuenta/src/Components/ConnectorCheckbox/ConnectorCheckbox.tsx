@@ -1,6 +1,7 @@
-import { useContext, useEffect, useState } from 'react';
+import { memo, useContext, useEffect, useState } from 'react';
 import './ConnectorCheckbox.scss';
 import { GlobalContext } from '../../Context/GlobalContext';
+
 export const ConnectorCheckbox = ({
     foodId,
     userId,
@@ -18,11 +19,9 @@ export const ConnectorCheckbox = ({
     );
 
     useEffect(() => {
-        if (checked !== foods[foodId].peoplePaying.includes(userId)) {
-            const newState = !checked;
-            setChecked(newState);
-        }
-    }, [foods]);
+        const newState = foods[foodId].peoplePaying.includes(userId);
+        setChecked(newState);
+    }, [foods[foodId].peoplePaying.includes(userId)]);
 
     const toggleChecked = () => {
         const newState = !checked;

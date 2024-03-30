@@ -101,7 +101,7 @@ export const useFood = () => {
 
         setFoods(newFoods);
     };
-
+    //TODO: Add getFoodById, removeFood, change name for foods to only suport icons
     return {
         foods,
         addFood,

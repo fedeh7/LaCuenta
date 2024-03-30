@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useMemo, useState } from 'react';
 import {
     addFoodToUserInterface,
     editUserInterface,
@@ -34,7 +34,9 @@ export const useUser = () => {
     );
     const [userIdCounter, setUserIdCounter] = useState(0);
 
-    const userList = Object.keys(users);
+    const userList = useMemo(() => {
+        return Object.keys(users);
+    }, [Object.keys(users).length]);
 
     const getNewId = () => {
         setUserIdCounter(userIdCounter + 1);
@@ -124,6 +126,8 @@ export const useUser = () => {
 
         setUsers(newUsers);
     };
+
+    //TODO: Create getUserById, removeUser, lockUser. Maybe add emojis for names?
 
     return {
         users,

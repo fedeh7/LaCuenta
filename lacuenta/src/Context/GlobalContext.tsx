@@ -103,25 +103,27 @@ export const GlobalContextProvider = ({
         }
     };
 
+    //TODO: Find a way to divide the state in diferent values, to prevent unnesesary rerender of components because the object of the context is being reinstanced, maybe create individual contexts for each variable that depend on this bigger context. For example right now when you add a new food and there are no users, UserContainer rerenders and it shouldnt, since it has nothing diferent to render
+    const values: stateInterface = {
+        // User related methods
+        users,
+        addUser,
+        editUser,
+        userList,
+
+        // Food related methods
+        foods,
+        foodList,
+        addFood,
+
+        // Context Methods
+        connectUserAndFood,
+        disconnectUserAndFood,
+        editFoodValues,
+    };
+
     return (
-        <GlobalContext.Provider
-            value={{
-                // User related methods
-                users,
-                addUser,
-                editUser,
-                userList,
-
-                // Food related methods
-                foods,
-                foodList,
-                addFood,
-
-                // Context Methods
-                connectUserAndFood,
-                disconnectUserAndFood,
-                editFoodValues,
-            }}>
+        <GlobalContext.Provider value={values}>
             {children}
         </GlobalContext.Provider>
     );
