@@ -14,6 +14,7 @@ export const Card = ({
     itemSpecialValueAmount,
     checkboxList,
     cssClassSpecialValue,
+    nameIconSelector,
 }: {
     itemType: string;
     Id: number;
@@ -27,18 +28,23 @@ export const Card = ({
     itemSpecialValueAmount: number;
     checkboxList: JSX.Element[];
     cssClassSpecialValue?: string;
+    nameIconSelector?: JSX.Element;
 }) => {
     return (
         <div className="card-container">
             <div className="card-data">
                 <div className="card-data-name">
-                    <CustomInput
-                        inputName={`${itemType}Name-${Id}`}
-                        inputType="text"
-                        onChange={handleOnItemNameChange}
-                        value={itemName}
-                        placeholderText="Unknown"
-                    />
+                    {nameIconSelector ? (
+                        nameIconSelector
+                    ) : (
+                        <CustomInput
+                            inputName={`${itemType}Name-${Id}`}
+                            inputType="text"
+                            onChange={handleOnItemNameChange}
+                            value={itemName}
+                            placeholderText="Unknown"
+                        />
+                    )}
                 </div>
 
                 <div className="card-data-money">

@@ -1,13 +1,10 @@
 import { useContext } from 'react';
-import { CustomInput } from '../CustomInput';
 import { GlobalContext } from '../../Context/GlobalContext';
 import { ConnectorCheckbox } from '../ConnectorCheckbox';
 import './EditableUserCard.scss';
-import { userInterface } from '../../Context/Interfaces';
 import { Card } from '../Card';
 
 export const EditableUserCard = ({ userId }: { userId: number }) => {
-    console.log('User Card', userId);
     const { editUser, foodList, foods, users } = useContext(GlobalContext);
     const { userName, initialMoneySpent, expectedPay } = users[userId];
 

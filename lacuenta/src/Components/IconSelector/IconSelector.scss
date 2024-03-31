@@ -1,0 +1,31 @@
+@import '../../Constants/styles.scss';
+
+.icon-tooltip {
+    background-color: $gray;
+    height: auto;
+    width: 200px;
+    padding: 8px;
+    text-align: center;
+
+    position: absolute;
+    left: 45px;
+    bottom: -30px;
+    z-index: 1;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+    border: solid 1px $clear;
+}
+.icon {
+    padding: 8px;
+    font-size: 30px;
+    text-align: center;
+}
+.icon-selector {
+    padding: 4px;
+    width: fit-content;
+
+    position: relative;
+}

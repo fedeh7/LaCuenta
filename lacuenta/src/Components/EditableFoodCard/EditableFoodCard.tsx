@@ -1,18 +1,18 @@
 import { useContext, useState } from 'react';
 import './EditableFoodCard.scss';
-import { CustomInput } from '../CustomInput';
 import { GlobalContext } from '../../Context/GlobalContext';
 import { ConnectorCheckbox } from '../ConnectorCheckbox';
 import { foodInterface } from '../../Context/Interfaces';
 import { Card } from '../Card';
+import { IconSelector } from '../IconSelector';
 
 export const EditableFoodCard = ({ food }: { food: foodInterface }) => {
     const { userList, users, editFoodValues } = useContext(GlobalContext);
     const { foodId, foodName, foodCost, dividedValue } = food;
 
-    const handleOnNameChange = (e: any) => {
+    const handleOnNameChange = (e: string) => {
         updateFoodData({
-            newFoodName: e.target.value,
+            newFoodName: e,
         });
     };
 
@@ -48,6 +48,12 @@ export const EditableFoodCard = ({ food }: { food: foodInterface }) => {
         );
     });
 
+    const nameIconSelector = (
+        <IconSelector
+            foodIcon={foodName}
+            handleOnIconChange={handleOnNameChange}
+        />
+    );
     return (
         <Card
             itemType="food"
@@ -61,6 +67,7 @@ export const EditableFoodCard = ({ food }: { food: foodInterface }) => {
             itemSpecialValueTitle="Valor dividido"
             itemSpecialValueAmount={dividedValue}
             checkboxList={checkboxList}
+            nameIconSelector={nameIconSelector}
         />
     );
 };

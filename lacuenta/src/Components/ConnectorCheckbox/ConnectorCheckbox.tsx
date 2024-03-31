@@ -35,10 +35,10 @@ export const ConnectorCheckbox = ({
     };
 
     return (
-        <p
-            className={`food-checkbox ${checked && 'checked'}`}
-            onClick={toggleChecked}>
-            {checkboxText}
-        </p>
+        <div className={`connector-checkbox-container ${checked && 'checked'}`}>
+            <p className={`connector-checkbox`} onClick={toggleChecked}>
+                {checkboxText}
+            </p>
+        </div>
     );
 };

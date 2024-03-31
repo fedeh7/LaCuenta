@@ -10,7 +10,6 @@ export const UserContainer = () => {
     const handleAddUser = () => {
         addUser();
     };
-    console.log('user Container');
     return (
         <div className="user-container">
             <h1 className="user-title">Comensales</h1>

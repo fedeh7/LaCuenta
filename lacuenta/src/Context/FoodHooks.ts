@@ -39,7 +39,7 @@ export const useFood = () => {
             ...foods,
             [newFoodId]: {
                 foodId: newFoodId,
-                foodName: 'New',
+                foodName: '🍔',
                 foodCost: 0,
                 dividedValue: 0,
                 peoplePaying: [],
