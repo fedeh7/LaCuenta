@@ -1,15 +1,19 @@
 import { memo, useContext, useEffect, useState } from 'react';
 import './ConnectorCheckbox.scss';
 import { GlobalContext } from '../../Context/GlobalContext';
+import { IconRenderer } from '../Icons';
+import { foodValues } from '../../Constants/interfaces';
 
 export const ConnectorCheckbox = ({
     foodId,
     userId,
     checkboxText,
+    showFoodIcon = false,
 }: {
     foodId: number;
     userId: number;
-    checkboxText: string;
+    checkboxText: string | foodValues;
+    showFoodIcon: boolean;
 }) => {
     const { connectUserAndFood, disconnectUserAndFood, foods } =
         useContext(GlobalContext);
@@ -34,11 +38,20 @@ export const ConnectorCheckbox = ({
         }
     };
 
+    const ChildComponent = showFoodIcon ? (
+        // @ts-ignore
+        <IconRenderer icon={checkboxText} />
+    ) : (
+        <p className={`connector-checkbox`}>{checkboxText}</p>
+    );
+
     return (
-        <div className={`connector-checkbox-container ${checked && 'checked'}`}>
-            <p className={`connector-checkbox`} onClick={toggleChecked}>
-                {checkboxText}
-            </p>
+        <div
+            className={`connector-checkbox-container ${
+                checked ? 'checked' : ''
+            } ${showFoodIcon ? 'foodIcon' : 'userName'}`}
+            onClick={toggleChecked}>
+            {ChildComponent}
         </div>
     );
 };

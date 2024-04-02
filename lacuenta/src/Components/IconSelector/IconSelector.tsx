@@ -1,12 +1,12 @@
 import { useState } from 'react';
-import { foodIcons } from '../../Constants';
+import { FoodIcons, foodNameValues } from '../../Constants';
 import './IconSelector.scss';
 import { useCloseWhenClickingOutside } from '../../Utils';
 
-const IconWrapper = ({ icon }: { icon: string }) => {
-    return <span className="icon">{icon}</span>;
-};
-const IconContainer = ({
+import { foodValues } from '../../Constants/interfaces';
+import { IconRenderer } from '../Icons';
+
+export const IconContainer = ({
     showIcons,
     selectIcon,
 }: {
@@ -15,13 +15,14 @@ const IconContainer = ({
 }) => {
     return (
         <div className={`icon-tooltip ${!showIcons ? 'hidden' : ''}`}>
-            {foodIcons.map((icon) => {
+            {foodNameValues.map((value: any) => {
                 return (
                     <div
+                        className="icon-wrapper"
                         onClick={() => {
-                            selectIcon(icon);
+                            selectIcon(value);
                         }}>
-                        <IconWrapper icon={icon} />
+                        <IconRenderer icon={value} />
                     </div>
                 );
             })}
@@ -29,10 +30,10 @@ const IconContainer = ({
     );
 };
 export const IconSelector = ({
-    foodIcon = foodIcons[0],
+    foodIcon,
     handleOnIconChange,
 }: {
-    foodIcon: string;
+    foodIcon: foodValues;
     handleOnIconChange: (icon: string) => void;
 }) => {
     const [showIcons, setShowIcons] = useState(false);
@@ -57,7 +58,7 @@ export const IconSelector = ({
                 <div
                     className="icon-selector-selected-icon"
                     onClick={toogleIconsContainer}>
-                    <IconWrapper icon={foodIcon} />
+                    <IconRenderer icon={foodIcon} />
                 </div>
 
                 <IconContainer showIcons={showIcons} selectIcon={selectIcon} />

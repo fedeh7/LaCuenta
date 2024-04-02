@@ -4,6 +4,7 @@ import {
     foodInterface,
     userAndFoodInterface,
 } from './Interfaces';
+import { HAMBURGER_ICON } from '../Constants';
 
 const calculateNewDividedValue = ({
     peoplePaying,
@@ -35,11 +36,11 @@ export const useFood = () => {
 
     const addFood = () => {
         const newFoodId = getNewId();
-        const newFoods = {
+        const newFoods: { [dynamic: number]: foodInterface } = {
             ...foods,
             [newFoodId]: {
                 foodId: newFoodId,
-                foodName: '🍔',
+                foodName: HAMBURGER_ICON,
                 foodCost: 0,
                 dividedValue: 0,
                 peoplePaying: [],

@@ -41,6 +41,7 @@ export const EditableUserCard = ({ userId }: { userId: number }) => {
                     foodId={Number(foodId)}
                     userId={userId}
                     checkboxText={foods[foodId].foodName}
+                    showFoodIcon={true}
                 />
             </div>
         );

@@ -1,6 +1,8 @@
+import { foodValues } from '../Constants/interfaces';
+
 export interface foodInterface {
     foodId: number;
-    foodName: string;
+    foodName: foodValues;
     foodCost: number;
     dividedValue: number;
     peoplePaying: number[];
@@ -13,7 +15,7 @@ export interface userAndFoodInterface {
 
 export interface editFoodInterface {
     foodId: number;
-    newFoodName?: string;
+    newFoodName?: foodValues;
     newFoodCost?: number;
 }
 
@@ -27,14 +29,6 @@ export interface userInterface {
     foods: foodsArrayInterface;
     expectedPay: number;
 }
-
-// export interface addUserInterface {
-//     userName: string;
-//     initialMoneySpent: number;
-// }
-// export interface removeUserInterface {
-//     userName: string;
-// }
 
 export interface addFoodToUserInterface {
     affectedUsers: number[];

@@ -1,6 +1,7 @@
 .connector-checkbox-container {
     border: 1px solid red;
     padding: 4px;
+    cursor: pointer;
 
     &.checked {
         background-color: green;
@@ -10,6 +11,9 @@
     .connector-checkbox {
         font-size: large;
         font-weight: 700;
-        cursor: pointer;
+    }
+    &.foodIcon {
+        width: 40px;
+        height: 40px;
     }
 }
