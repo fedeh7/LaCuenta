@@ -1,4 +1,4 @@
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import {
     addFoodToUserInterface,
     editUserInterface,
@@ -29,27 +29,68 @@ const calculateUserExpectedPay = ({
 };
 
 export const useUser = () => {
-    const [users, setUsers] = useState<{ [dynamic: number]: userInterface }>(
-        {},
-    );
     const [userIdCounter, setUserIdCounter] = useState(0);
-
-    const userList = useMemo(() => {
-        return Object.keys(users);
-    }, [Object.keys(users).length]);
-
     const getNewId = () => {
         setUserIdCounter(userIdCounter + 1);
         return userIdCounter;
     };
 
-    const addUser = () => {
+    // Cant use this function inside the default value of useState because it causes infinite rerenders for some reason
+    const getInitialState = () => {
+        let newUsers = {};
+        const savedLocalStorage = localStorage.getItem('users');
+        if (savedLocalStorage != null) {
+            const savedUsers = JSON.parse(savedLocalStorage);
+
+            savedUsers.forEach((userName: string, index: number) => {
+                newUsers = {
+                    ...newUsers,
+                    [index]: {
+                        userId: userName,
+                        userName,
+                        initialMoneySpent: 0,
+                        foods: {},
+                        expectedPay: 0,
+                    },
+                };
+            });
+            setUserIdCounter(savedUsers.length);
+        }
+        return newUsers;
+    };
+    const [users, setUsersState] = useState<{
+        [dynamic: number]: userInterface;
+    }>({});
+
+    useEffect(() => {
+        const initialState = getInitialState();
+        setUsersState(initialState);
+    }, []);
+
+    const userList = useMemo(() => {
+        return Object.keys(users);
+    }, [Object.keys(users).length]);
+
+    const saveUsersToLocalStorage = (newUsers: {
+        [dynamic: number]: userInterface;
+    }) => {
+        const usersNameList = [];
+        for (let userId in newUsers) {
+            usersNameList.push(newUsers[userId].userName);
+        }
+        localStorage.setItem('users', JSON.stringify(usersNameList));
+    };
+    const setUsers = (newUsers: { [dynamic: number]: userInterface }) => {
+        saveUsersToLocalStorage(newUsers);
+        setUsersState(newUsers);
+    };
+    const addUser = (userName = 'New') => {
         const newUserId = getNewId();
         const newUsers = {
             ...users,
             [newUserId]: {
                 userId: newUserId,
-                userName: 'New',
+                userName,
                 initialMoneySpent: 0,
                 foods: {},
                 expectedPay: 0,

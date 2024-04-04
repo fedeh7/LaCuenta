@@ -56,7 +56,7 @@ export interface newUsersFoodsDataInterface {
 export interface stateInterface {
     users: { [dynamic: string]: userInterface };
     userList: string[];
-    addUser: () => void;
+    addUser: (userName?: string) => void;
     editUser: ({
         userId,
         newUserName,
