@@ -1,5 +1,7 @@
 import './Card.scss';
 import { CustomInput } from '../CustomInput';
+import { TrashIcon } from '../Icons';
+import { cardTypes } from '../../Constants/interfaces';
 
 export const Card = ({
     itemType,
@@ -15,8 +17,9 @@ export const Card = ({
     checkboxList,
     cssClassSpecialValue,
     nameIconSelector,
+    handleOnDeleteItem,
 }: {
-    itemType: string;
+    itemType: cardTypes;
     Id: number;
     handleOnItemNameChange: any;
     itemName: string;
@@ -29,9 +32,15 @@ export const Card = ({
     checkboxList: JSX.Element[];
     cssClassSpecialValue?: string;
     nameIconSelector?: JSX.Element;
+    handleOnDeleteItem: () => void;
 }) => {
     return (
         <div className="card-container">
+            <div
+                className="card-container-delete-button"
+                onClick={handleOnDeleteItem}>
+                <TrashIcon />
+            </div>
             <div className="card-data">
                 <div className="card-data-name">
                     {nameIconSelector ? (

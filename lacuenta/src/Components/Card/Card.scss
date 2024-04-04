@@ -9,6 +9,20 @@
     background-color: $dark;
 
     padding: 16px;
+    position: relative;
+
+    .card-container-delete-button {
+        $size: 16px;
+        width: $size;
+        height: $size;
+        position: absolute;
+        top: 0%;
+        right: 0%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background-color: #fa5252;
+    }
 
     .card-data {
         width: 100%;

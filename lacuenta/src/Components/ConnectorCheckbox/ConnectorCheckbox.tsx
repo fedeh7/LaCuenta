@@ -1,7 +1,7 @@
-import { memo, useContext, useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import './ConnectorCheckbox.scss';
 import { GlobalContext } from '../../Context/GlobalContext';
-import { IconRenderer } from '../Icons';
+import { FoodIconRenderer } from '../Icons';
 import { foodValues } from '../../Constants/interfaces';
 
 export const ConnectorCheckbox = ({
@@ -40,7 +40,7 @@ export const ConnectorCheckbox = ({
 
     const ChildComponent = showFoodIcon ? (
         // @ts-ignore
-        <IconRenderer icon={checkboxText} />
+        <FoodIconRenderer icon={checkboxText} />
     ) : (
         <p className={`connector-checkbox`}>{checkboxText}</p>
     );

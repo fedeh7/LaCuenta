@@ -3,11 +3,16 @@ import { GlobalContext } from '../../Context/GlobalContext';
 import { ConnectorCheckbox } from '../ConnectorCheckbox';
 import './EditableUserCard.scss';
 import { Card } from '../Card';
+import { USER_TYPE } from '../../Constants';
 
 export const EditableUserCard = ({ userId }: { userId: number }) => {
-    const { editUser, foodList, foods, users } = useContext(GlobalContext);
+    const { editUser, foodList, foods, users, deleteUser } =
+        useContext(GlobalContext);
     const { userName, initialMoneySpent, expectedPay } = users[userId];
 
+    const handleOnDeleteItem = () => {
+        deleteUser({ userId });
+    };
     const handleOnNameChange = (e: any) => {
         updateUserData({
             newUserName: e.target.value,
@@ -53,7 +58,7 @@ export const EditableUserCard = ({ userId }: { userId: number }) => {
 
     return (
         <Card
-            itemType="user"
+            itemType={USER_TYPE}
             Id={userId}
             handleOnItemNameChange={handleOnNameChange}
             itemName={userName}
@@ -65,6 +70,7 @@ export const EditableUserCard = ({ userId }: { userId: number }) => {
             itemSpecialValueAmount={moneyToPayAmount}
             checkboxList={checkboxList}
             cssClassSpecialValue={cssClassSpecialValue}
+            handleOnDeleteItem={handleOnDeleteItem}
         />
     );
 };

@@ -1,15 +1,20 @@
-import { useContext, useState } from 'react';
+import { useContext } from 'react';
 import './EditableFoodCard.scss';
 import { GlobalContext } from '../../Context/GlobalContext';
 import { ConnectorCheckbox } from '../ConnectorCheckbox';
 import { foodInterface } from '../../Context/Interfaces';
 import { Card } from '../Card';
 import { IconSelector } from '../IconSelector';
+import { FOOD_TYPE } from '../../Constants';
 
 export const EditableFoodCard = ({ food }: { food: foodInterface }) => {
-    const { userList, users, editFoodValues } = useContext(GlobalContext);
+    const { userList, users, editFoodValues, deleteFood } =
+        useContext(GlobalContext);
     const { foodId, foodName, foodCost, dividedValue } = food;
 
+    const handleOnDeleteItem = () => {
+        deleteFood({ foodId });
+    };
     const handleOnNameChange = (e: string) => {
         updateFoodData({
             newFoodName: e,
@@ -57,7 +62,7 @@ export const EditableFoodCard = ({ food }: { food: foodInterface }) => {
     );
     return (
         <Card
-            itemType="food"
+            itemType={FOOD_TYPE}
             Id={foodId}
             handleOnItemNameChange={handleOnNameChange}
             itemName={foodName}
@@ -69,6 +74,7 @@ export const EditableFoodCard = ({ food }: { food: foodInterface }) => {
             itemSpecialValueAmount={dividedValue}
             checkboxList={checkboxList}
             nameIconSelector={nameIconSelector}
+            handleOnDeleteItem={handleOnDeleteItem}
         />
     );
 };

@@ -23,6 +23,7 @@ import {
     beerMugLogo,
     beerCanLogo,
     dumplingLogo,
+    trashLogo,
 } from '../../Constants/Assets';
 import { foodValues } from '../../Constants/interfaces';
 import './Icon.scss';
@@ -31,7 +32,7 @@ const Icon = ({ imageUrl, altText }: { imageUrl: string; altText: string }) => {
     return <img className="icon-base" src={imageUrl} alt={altText} />;
 };
 
-export const IconRenderer = ({ icon }: { icon: foodValues }) => {
+export const FoodIconRenderer = ({ icon }: { icon: foodValues }) => {
     const getIcon = FoodIcons[icon];
     return getIcon();
 };
@@ -104,4 +105,7 @@ export const BeerCanIcon = () => {
 };
 export const DumplingIcon = () => {
     return <Icon imageUrl={dumplingLogo} altText="Dumpling" />;
+};
+export const TrashIcon = () => {
+    return <Icon imageUrl={trashLogo} altText="Trash" />;
 };

@@ -21,6 +21,7 @@ import wrapLogo from './icons8-wrap-100.png';
 import beerMugLogo from './icons8-beer-100.png';
 import beerCanLogo from './icons8-beer-can-100.png';
 import dumplingLogo from './icons8-dumplings-100.png';
+import trashLogo from './icons8-trash-48.png';
 
 export {
     cheescakeLogo,
@@ -46,4 +47,5 @@ export {
     beerMugLogo,
     beerCanLogo,
     dumplingLogo,
+    trashLogo,
 };

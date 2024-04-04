@@ -1,10 +1,10 @@
 import { useState } from 'react';
-import { FoodIcons, foodNameValues } from '../../Constants';
+import { foodNameValues } from '../../Constants';
 import './IconSelector.scss';
 import { useCloseWhenClickingOutside } from '../../Utils';
 
 import { foodValues } from '../../Constants/interfaces';
-import { IconRenderer } from '../Icons';
+import { FoodIconRenderer } from '../Icons';
 
 export const IconContainer = ({
     showIcons,
@@ -22,7 +22,7 @@ export const IconContainer = ({
                         onClick={() => {
                             selectIcon(value);
                         }}>
-                        <IconRenderer icon={value} />
+                        <FoodIconRenderer icon={value} />
                     </div>
                 );
             })}
@@ -58,7 +58,7 @@ export const IconSelector = ({
                 <div
                     className="icon-selector-selected-icon"
                     onClick={toogleIconsContainer}>
-                    <IconRenderer icon={foodIcon} />
+                    <FoodIconRenderer icon={foodIcon} />
                 </div>
 
                 <IconContainer showIcons={showIcons} selectIcon={selectIcon} />

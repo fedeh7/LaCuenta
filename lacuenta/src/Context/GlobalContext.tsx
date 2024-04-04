@@ -21,6 +21,8 @@ const defaultState = {
     connectUserAndFood: () => {},
     disconnectUserAndFood: () => {},
     updateFoodsValueOnUsers: () => {},
+    deleteUser: () => {},
+    deleteFood: () => {},
 } as stateInterface;
 
 export const GlobalContext = createContext(defaultState);
@@ -37,6 +39,7 @@ export const GlobalContextProvider = ({
         addUserToFood,
         removeUserFromFood,
         foodList,
+        removeFoodFromState,
     } = useFood();
     const {
         users,
@@ -46,6 +49,7 @@ export const GlobalContextProvider = ({
         updateAffectedUsers,
         addFoodToUser,
         removeFoodFromUser,
+        removeUserFromState,
     } = useUser();
 
     const connectUserAndFood = ({ userId, foodId }: userAndFoodInterface) => {
@@ -103,6 +107,25 @@ export const GlobalContextProvider = ({
         }
     };
 
+    const deleteUser = ({ userId }: { userId: number }) => {
+        const userToRemove = users[userId];
+        const userFoodIdList = Object.keys(userToRemove.foods);
+
+        userFoodIdList.forEach((foodId) => {
+            disconnectUserAndFood({ userId, foodId: Number(foodId) });
+        });
+        removeUserFromState({ userId });
+    };
+    const deleteFood = ({ foodId }: { foodId: number }) => {
+        const foodToRemove = foods[foodId];
+        const foodUsersPayingList = foodToRemove.peoplePaying;
+
+        foodUsersPayingList.forEach((userId) => {
+            disconnectUserAndFood({ userId, foodId });
+        });
+        removeFoodFromState({ foodId });
+    };
+
     //TODO: Find a way to divide the state in diferent values, to prevent unnesesary rerender of components because the object of the context is being reinstanced, maybe create individual contexts for each variable that depend on this bigger context. For example right now when you add a new food and there are no users, UserContainer rerenders and it shouldnt, since it has nothing diferent to render
     const values: stateInterface = {
         // User related methods
@@ -120,6 +143,8 @@ export const GlobalContextProvider = ({
         connectUserAndFood,
         disconnectUserAndFood,
         editFoodValues,
+        deleteFood,
+        deleteUser,
     };
 
     return (

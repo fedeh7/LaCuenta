@@ -74,4 +74,6 @@ export interface stateInterface {
 
     connectUserAndFood: ({ userId, foodId }: userAndFoodInterface) => void;
     disconnectUserAndFood: ({ userId, foodId }: userAndFoodInterface) => void;
+    deleteUser: ({ userId }: { userId: number }) => void;
+    deleteFood: ({ foodId }: { foodId: number }) => void;
 }

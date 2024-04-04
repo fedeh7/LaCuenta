@@ -24,34 +24,12 @@ import {
     WrapIcon,
 } from '../Components/Icons';
 
-export const ADD_USER_MODAL_ID = 'addUserModal';
-export const REMOVE_USER_MODAL_ID = 'removeUserModal';
-export const EDIT_USER_MODAL_ID = 'editUserModal';
-export const ADD_FOOD_MODAL_ID = 'addFoodModal';
-export const REMOVE_FOOD_MODAL_ID = 'removeFoodModal';
-export const EDIT_FOOD_MODAL_ID = 'editFoodModal';
+// Card types
+export const USER_TYPE = 'user';
+export const FOOD_TYPE = 'food';
+export const cardTypesValues = [USER_TYPE, FOOD_TYPE] as const;
 
-export const foodIcons = [
-    '🍔',
-    '🍟',
-    '🍕',
-    '🥩',
-    '🍗',
-    '🌭',
-    '🥪',
-    '🍝',
-    '🍣',
-    '🍅',
-    '🍫',
-    '🍨',
-    '🍿',
-    '🍺',
-    '🍷',
-    '☕',
-    '🥤',
-    '🧃',
-];
-
+// Food Icons
 export const HAMBURGER_ICON = 'hamburger';
 export const CHEESECAKE_ICON = 'cheesecake';
 export const CAKE_ICON = 'cake';

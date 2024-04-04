@@ -102,6 +102,13 @@ export const useFood = () => {
 
         setFoods(newFoods);
     };
+
+    const removeFoodFromState = ({ foodId }: { foodId: number }) => {
+        const newFoods = { ...foods };
+        delete newFoods[foodId];
+
+        setFoods(newFoods);
+    };
     //TODO: Add getFoodById, removeFood, change name for foods to only suport icons
     return {
         foods,
@@ -110,5 +117,6 @@ export const useFood = () => {
         addUserToFood,
         removeUserFromFood,
         foodList,
+        removeFoodFromState,
     };
 };

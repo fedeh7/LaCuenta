@@ -127,6 +127,12 @@ export const useUser = () => {
         setUsers(newUsers);
     };
 
+    const removeUserFromState = ({ userId }: { userId: number }) => {
+        const newUsers = { ...users };
+        delete newUsers[userId];
+
+        setUsers(newUsers);
+    };
     //TODO: Create getUserById, removeUser, lockUser. Maybe add emojis for names?
 
     return {
@@ -137,5 +143,6 @@ export const useUser = () => {
         updateAffectedUsers,
         addFoodToUser,
         removeFoodFromUser,
+        removeUserFromState,
     };
 };
