@@ -15,10 +15,11 @@ export const IconContainer = ({
 }) => {
     return (
         <div className={`icon-tooltip ${!showIcons ? 'hidden' : ''}`}>
-            {foodNameValues.map((value: any) => {
+            {foodNameValues.map((value: any, index: number) => {
                 return (
                     <div
                         className="icon-wrapper"
+                        key={index}
                         onClick={() => {
                             selectIcon(value);
                         }}>
