@@ -18,12 +18,11 @@ const defaultState = {
     addFood: () => {},
     editFoodValues: () => {},
 
-    connectUserAndFood: () => {},
-    disconnectUserAndFood: () => {},
     updateFoodsValueOnUsers: () => {},
     deleteUser: () => {},
     deleteFood: () => {},
     handleToggleBuyer: () => {},
+    handleToggleUserConsumesFood: () => {},
 } as stateInterface;
 
 export const GlobalContext = createContext(defaultState);
@@ -92,6 +91,23 @@ export const GlobalContextProvider = ({
             foodId,
             newFoodDividedValue,
         });
+    };
+
+    const handleToggleUserConsumesFood = ({
+        userId,
+        foodId,
+        currentStatus,
+    }: {
+        userId: number;
+        foodId: number;
+        currentStatus: boolean;
+    }) => {
+        const newStatus = !currentStatus;
+        if (newStatus) {
+            connectUserAndFood({ userId, foodId });
+        } else {
+            disconnectUserAndFood({ userId, foodId });
+        }
     };
 
     const editFoodValues = ({
@@ -192,12 +208,11 @@ export const GlobalContextProvider = ({
         addFood,
 
         // Context Methods
-        connectUserAndFood,
-        disconnectUserAndFood,
         editFoodValues,
         deleteFood,
         deleteUser,
         handleToggleBuyer,
+        handleToggleUserConsumesFood,
     };
 
     return (

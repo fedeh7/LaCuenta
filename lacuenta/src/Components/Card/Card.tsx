@@ -1,37 +1,18 @@
 import './Card.scss';
-import { CustomInput } from '../CustomInput';
 import { TrashIcon } from '../Icons';
-import { cardTypes } from '../../Constants/interfaces';
 
 export const Card = ({
-    itemType,
-    Id,
-    handleOnItemNameChange,
-    itemName,
-    itemMoneyTitle,
-    handleOnItemMoneyChange,
-    itemMoneyValue,
-    itemMoneyPlaceholderValue,
-    itemSpecialValueTitle,
-    itemSpecialValueAmount,
+    itemTitle,
+    itemFirstValue,
+    itemSecondValue,
+
     checkboxList,
-    cssClassSpecialValue,
-    nameIconSelector,
     handleOnDeleteItem,
 }: {
-    itemType: cardTypes;
-    Id: number;
-    handleOnItemNameChange: any;
-    itemName: string;
-    itemMoneyTitle: string;
-    handleOnItemMoneyChange: (e: any) => void;
-    itemMoneyValue: number;
-    itemMoneyPlaceholderValue: string;
-    itemSpecialValueTitle: string;
-    itemSpecialValueAmount: number;
+    itemTitle: any;
+    itemFirstValue: any;
+    itemSecondValue: any;
     checkboxList: JSX.Element[];
-    cssClassSpecialValue?: string;
-    nameIconSelector?: JSX.Element;
     handleOnDeleteItem: () => void;
 }) => {
     return (
@@ -41,9 +22,9 @@ export const Card = ({
                 onClick={handleOnDeleteItem}>
                 <TrashIcon />
             </div>
-            <div className="card-data">
-                <div className="card-data-name">
-                    {nameIconSelector ? (
+            <div className="card-first-row">
+                <div className="card-item-title">
+                    {/* {nameIconSelector ? (
                         nameIconSelector
                     ) : (
                         <CustomInput
@@ -53,11 +34,13 @@ export const Card = ({
                             value={itemName}
                             placeholderText="Unknown"
                         />
-                    )}
+                    )} */}
+                    {itemTitle}
                 </div>
-
-                <div className="card-data-money">
-                    <p className="card-data-money-title">{itemMoneyTitle}</p>
+            </div>
+            <div className="card-second-row">
+                <div className="card-item-first-value">
+                    {/* <p className="card-data-money-title">{itemMoneyTitle}</p>
                     <div className="card-data-money-input">
                         <CustomInput
                             inputName={`${itemType}Cost-${Id}`}
@@ -66,19 +49,21 @@ export const Card = ({
                             value={itemMoneyValue}
                             placeholderText={itemMoneyPlaceholderValue}
                         />
-                    </div>
+                    </div> */}
+                    {itemFirstValue}
                 </div>
-                <div className="card-data-special-value">
-                    <p className="card-data-special-value-title">
+                <div className="card-item-second-value">
+                    {/* <p className="card-data-special-value-title">
                         {itemSpecialValueTitle}
                     </p>
                     <p
                         className={`card-data-special-value-amount ${cssClassSpecialValue}`}>
                         {itemSpecialValueAmount}
-                    </p>
+                    </p> */}
+                    {itemSecondValue}
                 </div>
             </div>
-            <div className="card-checklist">{checkboxList}</div>
+            <div className="card-third-row">{checkboxList}</div>
         </div>
     );
 };

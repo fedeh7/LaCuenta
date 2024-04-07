@@ -78,23 +78,11 @@ export const EditableFoodCard = ({ food }: { food: foodInterface }) => {
     );
     return (
         <Card
-            itemType={FOOD_TYPE}
-            Id={foodId}
-            handleOnItemNameChange={handleOnNameChange}
-            itemName={foodName}
-            itemMoneyTitle="Costo:"
-            handleOnItemMoneyChange={handleOnCostChange}
-            itemMoneyValue={foodCost}
-            itemMoneyPlaceholderValue="Free?"
-            itemSpecialValueTitle="Valor dividido"
-            itemSpecialValueAmount={dividedValue}
-            checkboxList={checkboxList}
-            nameIconSelector={nameIconSelector}
-            handleOnDeleteItem={handleOnDeleteItem}
-            // New
             itemTitle={itemTitle}
             itemFirstValue={itemFirstValue}
             itemSecondValue={itemSecondValue}
+            checkboxList={checkboxList}
+            handleOnDeleteItem={handleOnDeleteItem}
         />
     );
 };

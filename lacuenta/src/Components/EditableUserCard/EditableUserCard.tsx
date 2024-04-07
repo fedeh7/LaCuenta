@@ -81,23 +81,11 @@ export const EditableUserCard = ({ userId }: { userId: number }) => {
 
     return (
         <Card
-            itemType={USER_TYPE}
-            Id={userId}
-            handleOnItemNameChange={handleOnNameChange}
-            itemName={userName}
-            itemMoneyTitle="Gastado:"
-            handleOnItemMoneyChange={handleOnMoneyChange}
-            itemMoneyValue={initialMoneySpent}
-            itemMoneyPlaceholderValue="No money"
-            itemSpecialValueTitle={moneyToPayTitle}
-            itemSpecialValueAmount={moneyToPayAmount}
-            checkboxList={checkboxList}
-            cssClassSpecialValue={cssClassSpecialValue}
-            handleOnDeleteItem={handleOnDeleteItem}
-            // New
             itemTitle={itemTitle}
             itemFirstValue={itemFirstValue}
             itemSecondValue={itemSecondValue}
+            checkboxList={checkboxList}
+            handleOnDeleteItem={handleOnDeleteItem}
         />
     );
 };

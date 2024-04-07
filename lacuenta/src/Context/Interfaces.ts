@@ -77,8 +77,15 @@ export interface stateInterface {
         newFoodCost,
     }: editFoodInterface) => void;
 
-    connectUserAndFood: ({ userId, foodId }: userAndFoodInterface) => void;
-    disconnectUserAndFood: ({ userId, foodId }: userAndFoodInterface) => void;
+    handleToggleUserConsumesFood: ({
+        userId,
+        foodId,
+        currentStatus,
+    }: {
+        userId: number;
+        foodId: number;
+        currentStatus: boolean;
+    }) => void;
     deleteUser: ({ userId }: { userId: number }) => void;
     deleteFood: ({ foodId }: { foodId: number }) => void;
     handleToggleBuyer: ({
