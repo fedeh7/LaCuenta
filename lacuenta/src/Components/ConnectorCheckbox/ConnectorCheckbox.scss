@@ -1,13 +1,29 @@
+@import '../../Constants/styles.scss';
+
 .connector-checkbox-container {
     border: 1px solid red;
     padding: 4px;
     cursor: pointer;
+    color: $clear;
 
     &.checked {
         background-color: green;
         border: 1px solid green;
+        color: $clear;
+    }
+    &.buyer {
+        background-color: gold;
+        border: 1px solid gold;
+        color: $dark;
     }
 
+    &.buyer {
+        &.checked {
+            background-color: green;
+            border: 1px solid gold;
+            color: $clear;
+        }
+    }
     .connector-checkbox {
         font-size: large;
         font-weight: 700;

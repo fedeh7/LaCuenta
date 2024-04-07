@@ -26,7 +26,7 @@ export const useFood = () => {
     const [foods, setFoods] = useState<{ [dynamic: number]: foodInterface }>(
         {},
     );
-    const [foodIdCounter, setFoodIdCounter] = useState(0);
+    const [foodIdCounter, setFoodIdCounter] = useState(1);
 
     const foodList = Object.keys(foods);
     const getNewId = () => {

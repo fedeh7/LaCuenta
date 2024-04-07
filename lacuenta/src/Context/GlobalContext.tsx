@@ -119,10 +119,14 @@ export const GlobalContextProvider = ({
         if (newFoodCost != undefined) {
             const affectedUsers = foods[foodId].peoplePaying;
             const newFoodDividedValue = foods[foodId].dividedValue;
+            const foodBuyer = foods[foodId].buyer;
+
             updateAffectedUsers({
                 affectedUsers,
                 foodId,
                 newFoodDividedValue,
+                newFoodCost,
+                foodBuyer,
             });
         }
     };
@@ -157,16 +161,23 @@ export const GlobalContextProvider = ({
     };
 
     const setBuyer = ({
-        userId,
+        newBuyerUserId,
+        previousBuyerUserId,
         foodId,
         foodCost,
     }: {
-        userId: number;
+        newBuyerUserId: number;
+        previousBuyerUserId: number | null;
         foodId: number;
         foodCost: number;
     }) => {
-        setBuyerForFood({ userId, foodId });
-        addFoodToUserBoughtFoods({ userId, foodId, foodCost });
+        setBuyerForFood({ userId: newBuyerUserId, foodId });
+        addFoodToUserBoughtFoods({
+            newBuyerUserId,
+            previousBuyerUserId,
+            foodId,
+            foodCost,
+        });
     };
     const removeBuyer = ({
         userId,
@@ -179,18 +190,20 @@ export const GlobalContextProvider = ({
         removeFoodFromUserBoughtFoods({ userId, foodId });
     };
     const handleToggleBuyer = ({
-        userId,
+        newBuyerUserId,
+        previousBuyerUserId,
         foodId,
         foodCost,
     }: {
-        userId: number;
+        newBuyerUserId: number;
+        previousBuyerUserId: number | null;
         foodId: number;
-        foodCost?: number;
+        foodCost: number;
     }) => {
-        if (foods[foodId].buyer === userId) {
-            removeBuyer({ userId, foodId });
-        } else if (foodCost) {
-            setBuyer({ userId, foodId, foodCost });
+        if (previousBuyerUserId === newBuyerUserId) {
+            removeBuyer({ userId: newBuyerUserId, foodId });
+        } else {
+            setBuyer({ newBuyerUserId, previousBuyerUserId, foodId, foodCost });
         }
     };
 

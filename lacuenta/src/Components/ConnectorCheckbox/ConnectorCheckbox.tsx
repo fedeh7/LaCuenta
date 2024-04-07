@@ -20,6 +20,11 @@ export const ConnectorCheckbox = ({
         useContext(GlobalContext);
 
     const isChecked = foods[foodId].peoplePaying.includes(userId);
+    const isBuyer = foods[foodId].buyer === userId;
+
+    const specialCssClasses = `${isChecked ? 'checked' : ''} ${
+        showFoodIcon ? 'foodIcon' : 'userName'
+    }  ${isBuyer ? 'buyer' : ''}`;
 
     const toggleChecked = () => {
         handleToggleUserConsumesFood({
@@ -31,12 +36,19 @@ export const ConnectorCheckbox = ({
 
     const toggleBuyerOnLongPress = () => {
         const foodCost = foods[foodId].foodCost;
-        handleToggleBuyer({ foodId, userId, foodCost });
+        const previousBuyerUserId = foods[foodId].buyer;
+        handleToggleBuyer({
+            newBuyerUserId: userId,
+            previousBuyerUserId,
+            foodId,
+            foodCost,
+        });
     };
 
     const longPressAttributes = useLongPress({
         onLongPress: toggleBuyerOnLongPress,
-        onStart: toggleChecked,
+        // onStart: toggleChecked,
+        onCancel: toggleChecked,
     });
 
     const ChildComponent = showFoodIcon ? (
@@ -48,9 +60,8 @@ export const ConnectorCheckbox = ({
 
     return (
         <div
-            className={`connector-checkbox-container ${
-                isChecked ? 'checked' : ''
-            } ${showFoodIcon ? 'foodIcon' : 'userName'}`}
+            className={`connector-checkbox-container ${specialCssClasses}`}
+            onContextMenu={(e: any) => e.preventDefault()}
             {...longPressAttributes}>
             {ChildComponent}
         </div>

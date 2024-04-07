@@ -39,7 +39,7 @@ const calculateUserMoneySpentOnBoughtFoods = ({
     let newMoneySpentOnBoughtFoods = 0;
 
     currentFoodsBoughtValues.forEach((foodCost) => {
-        const realFoodCost = foodCost ? foodCost : 0;
+        const realFoodCost = foodCost ? Number(foodCost) : 0;
         newMoneySpentOnBoughtFoods += realFoodCost;
     });
 
@@ -70,27 +70,30 @@ const createNewUserInUsersObject = ({
     };
 };
 export const useUser = () => {
-    const [userIdCounter, setUserIdCounter] = useState(0);
+    const [userIdCounter, setUserIdCounter] = useState(1);
     const getNewId = () => {
         setUserIdCounter(userIdCounter + 1);
         return userIdCounter;
     };
 
     // Cant use this function inside the default value of useState because it causes infinite rerenders for some reason
+    // I think it causes infinte rerenders becuase the state for the ids is inside this same hook so it rerenders when it changes but IM NOT SURE
     const getInitialState = () => {
         let newUsers = {};
+        let initialId = 1;
         const savedLocalStorage = localStorage.getItem('users');
         if (savedLocalStorage != null) {
             const savedUsers = JSON.parse(savedLocalStorage);
 
-            savedUsers.forEach((userName: string, index: number) => {
+            savedUsers.forEach((userName: string) => {
                 newUsers = createNewUserInUsersObject({
                     newUsers,
-                    newUserId: index,
+                    newUserId: initialId,
                     newUserName: userName,
                 });
+                initialId += 1;
             });
-            setUserIdCounter(savedUsers.length);
+            setUserIdCounter(initialId);
         }
         return newUsers;
     };
@@ -157,6 +160,8 @@ export const useUser = () => {
         affectedUsers,
         foodId,
         newFoodDividedValue,
+        newFoodCost = 0,
+        foodBuyer = null,
     }: updateAffectedUsersInterface) => {
         const newUsers = { ...users };
         affectedUsers.forEach((userId: number) => {
@@ -165,8 +170,20 @@ export const useUser = () => {
                 ...currentUser.foods,
                 [foodId]: newFoodDividedValue,
             };
+
             currentUser.expectedPay = calculateUserExpectedPay({ currentUser });
         });
+
+        if (foodBuyer != null) {
+            newUsers[foodBuyer].boughtFoods[foodId] = newFoodCost;
+            newUsers[foodBuyer].moneySpentOnBoughtFoods =
+                calculateUserMoneySpentOnBoughtFoods({
+                    currentUser: newUsers[foodBuyer],
+                });
+            newUsers[foodBuyer].expectedPay = calculateUserExpectedPay({
+                currentUser: newUsers[foodBuyer],
+            });
+        }
         setUsers(newUsers);
     };
 
@@ -208,27 +225,43 @@ export const useUser = () => {
     };
 
     const addFoodToUserBoughtFoods = ({
-        userId,
+        newBuyerUserId,
+        previousBuyerUserId,
         foodId,
         foodCost,
     }: {
-        userId: number;
+        newBuyerUserId: number;
+        previousBuyerUserId: number | null;
         foodId: number;
         foodCost: number;
     }) => {
         const newUsers = { ...users };
-        newUsers[userId].boughtFoods = {
-            ...newUsers[userId].boughtFoods,
+
+        // Add new bought food to list of bought foods of new buyer
+        newUsers[newBuyerUserId].boughtFoods = {
+            ...newUsers[newBuyerUserId].boughtFoods,
             [foodId]: foodCost,
         };
-        newUsers[userId].moneySpentOnBoughtFoods =
+        newUsers[newBuyerUserId].moneySpentOnBoughtFoods =
             calculateUserMoneySpentOnBoughtFoods({
-                currentUser: newUsers[userId],
+                currentUser: newUsers[newBuyerUserId],
             });
-        newUsers[userId].expectedPay = calculateUserExpectedPay({
-            currentUser: newUsers[userId],
+        newUsers[newBuyerUserId].expectedPay = calculateUserExpectedPay({
+            currentUser: newUsers[newBuyerUserId],
         });
 
+        // Remove bought food from previous buyer if it exists
+        if (previousBuyerUserId != null) {
+            delete newUsers[previousBuyerUserId].boughtFoods[foodId];
+            newUsers[previousBuyerUserId].moneySpentOnBoughtFoods =
+                calculateUserMoneySpentOnBoughtFoods({
+                    currentUser: newUsers[previousBuyerUserId],
+                });
+            newUsers[previousBuyerUserId].expectedPay =
+                calculateUserExpectedPay({
+                    currentUser: newUsers[previousBuyerUserId],
+                });
+        }
         setUsers(newUsers);
     };
     const removeFoodFromUserBoughtFoods = ({

@@ -44,7 +44,6 @@ export const useLongPress = ({
     const isLongPressActive = useRef(false);
     const isPressed = useRef(false);
     const timerId = useRef();
-    const [controls, setControls] = useState({});
 
     return useMemo(() => {
         if (typeof onLongPress !== 'function') {

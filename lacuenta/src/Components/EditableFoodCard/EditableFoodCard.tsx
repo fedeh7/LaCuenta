@@ -4,11 +4,7 @@ import { GlobalContext } from '../../Context/GlobalContext';
 import { ConnectorCheckbox } from '../ConnectorCheckbox';
 import { foodInterface } from '../../Context/Interfaces';
 import { Card } from '../Card';
-import { IconSelector } from '../IconSelector';
-import { FOOD_TYPE } from '../../Constants';
-import { FoodName } from './FoodName';
-import { FoodCost } from './FoodCost';
-import { FoodDividedValue } from './FoodDividedValue';
+import { FoodDataTable } from './FoodDataTable';
 
 export const EditableFoodCard = ({ food }: { food: foodInterface }) => {
     const { userList, users, editFoodValues, deleteFood } =
@@ -57,30 +53,19 @@ export const EditableFoodCard = ({ food }: { food: foodInterface }) => {
         );
     });
 
-    const nameIconSelector = (
-        <IconSelector
-            foodIcon={foodName}
-            handleOnIconChange={handleOnNameChange}
-        />
-    );
-    const itemTitle = (
-        <FoodName foodName={foodName} handleOnNameChange={handleOnNameChange} />
-    );
-    const itemFirstValue = (
-        <FoodCost
+    const dataTable = (
+        <FoodDataTable
             foodCost={foodCost}
+            foodDividedValue={dividedValue}
             foodId={foodId}
+            foodName={foodName}
             handleOnFoodCostChange={handleOnCostChange}
+            handleOnNameChange={handleOnNameChange}
         />
-    );
-    const itemSecondValue = (
-        <FoodDividedValue foodDividedValue={dividedValue} foodId={foodId} />
     );
     return (
         <Card
-            itemTitle={itemTitle}
-            itemFirstValue={itemFirstValue}
-            itemSecondValue={itemSecondValue}
+            dataTable={dataTable}
             checkboxList={checkboxList}
             handleOnDeleteItem={handleOnDeleteItem}
         />

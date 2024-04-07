@@ -1,0 +1,28 @@
+.user-data-table-container {
+    display: grid;
+    grid-template-areas:
+        'row1-col1 row1-col2'
+        'row2-col1 row2-col2';
+    gap: 10px;
+
+    .user-name {
+        grid-area: row1-col1;
+
+        padding: 2px;
+    }
+    .user-expected-pay {
+        grid-area: row1-col2;
+
+        padding: 2px;
+    }
+    .user-money-spent-buying {
+        grid-area: row2-col1;
+
+        padding: 2px;
+    }
+    .user-money-spent-extra {
+        grid-area: row2-col2;
+
+        padding: 2px;
+    }
+}

@@ -41,6 +41,8 @@ export interface updateAffectedUsersInterface {
     affectedUsers: number[];
     foodId: number;
     newFoodDividedValue: number;
+    newFoodCost?: number;
+    foodBuyer?: number | null;
 }
 
 export interface removeFoodFromUserInterface {
@@ -90,11 +92,13 @@ export interface stateInterface {
     deleteFood: ({ foodId }: { foodId: number }) => void;
     handleToggleBuyer: ({
         foodId,
-        userId,
+        newBuyerUserId,
+        previousBuyerUserId,
         foodCost,
     }: {
         foodId: number;
-        userId: number;
-        foodCost?: number;
+        newBuyerUserId: number;
+        previousBuyerUserId: number | null;
+        foodCost: number;
     }) => void;
 }

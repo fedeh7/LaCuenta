@@ -1,7 +1,7 @@
 import { CustomInput } from '../CustomInput';
-import './UserMoneySpent.scss';
+import './UserCustomMoneySpent.scss';
 
-export const UserMoneySpent = ({
+export const UserCustomMoneySpent = ({
     userMoneySpent,
     userId,
     handleOnUserSpentMoneyChange,
@@ -12,7 +12,7 @@ export const UserMoneySpent = ({
 }) => {
     return (
         <div className="user-spent-money">
-            <p className="user-spent-money-title">Gastado</p>
+            <p className="user-spent-money-title">Extra</p>
             <div className="user-spent-money-value">
                 <CustomInput
                     inputName={`userMoneySpent-${userId}`}

@@ -1,17 +1,19 @@
 import { useContext } from 'react';
 import { GlobalContext } from '../../Context/GlobalContext';
 import { ConnectorCheckbox } from '../ConnectorCheckbox';
-import './EditableUserCard.scss';
 import { Card } from '../Card';
-import { USER_TYPE } from '../../Constants';
-import { UserName } from './UserName';
-import { UserMoneySpent } from './UserMoneySpent';
-import { UserExpectedPay } from './UserExpectedPay';
+import './EditableUserCard.scss';
+import { UserDataTable } from './UserDataTable';
 
 export const EditableUserCard = ({ userId }: { userId: number }) => {
     const { editUser, foodList, foods, users, deleteUser } =
         useContext(GlobalContext);
-    const { userName, initialMoneySpent, expectedPay } = users[userId];
+    const {
+        userName,
+        initialMoneySpent,
+        expectedPay,
+        moneySpentOnBoughtFoods,
+    } = users[userId];
 
     const handleOnDeleteItem = () => {
         deleteUser({ userId });
@@ -55,35 +57,20 @@ export const EditableUserCard = ({ userId }: { userId: number }) => {
         );
     });
 
-    const moneyToPayTitle = expectedPay >= 0 ? 'Paga: ' : 'Recibe: ';
-    const moneyToPayAmount = expectedPay >= 0 ? expectedPay : expectedPay * -1;
-    const cssClassSpecialValue = expectedPay >= 0 ? 'red' : 'green';
-
-    const itemTitle = (
-        <UserName
-            userId={userId}
-            userName={userName}
+    const UserTable = (
+        <UserDataTable
+            expectedPay={expectedPay}
+            handleOnMoneyChange={handleOnMoneyChange}
             handleOnNameChange={handleOnNameChange}
-        />
-    );
-
-    const itemFirstValue = (
-        <UserMoneySpent
+            moneySpentOnBoughtFoods={moneySpentOnBoughtFoods}
             userId={userId}
             userMoneySpent={initialMoneySpent}
-            handleOnUserSpentMoneyChange={handleOnMoneyChange}
+            userName={userName}
         />
     );
-
-    const itemSecondValue = (
-        <UserExpectedPay userId={userId} userExpectedPay={expectedPay} />
-    );
-
     return (
         <Card
-            itemTitle={itemTitle}
-            itemFirstValue={itemFirstValue}
-            itemSecondValue={itemSecondValue}
+            dataTable={UserTable}
             checkboxList={checkboxList}
             handleOnDeleteItem={handleOnDeleteItem}
         />
