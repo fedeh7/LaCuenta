@@ -1,0 +1,11 @@
+.food-cost {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    .food-cost-title {
+        margin-bottom: 4px;
+    }
+    .food-cost-input {
+    }
+}

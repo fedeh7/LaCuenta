@@ -23,6 +23,7 @@ const defaultState = {
     updateFoodsValueOnUsers: () => {},
     deleteUser: () => {},
     deleteFood: () => {},
+    handleToggleBuyer: () => {},
 } as stateInterface;
 
 export const GlobalContext = createContext(defaultState);
@@ -40,6 +41,8 @@ export const GlobalContextProvider = ({
         removeUserFromFood,
         foodList,
         removeFoodFromState,
+        setBuyerForFood,
+        removeBuyerFromFood,
     } = useFood();
     const {
         users,
@@ -50,8 +53,11 @@ export const GlobalContextProvider = ({
         addFoodToUser,
         removeFoodFromUser,
         removeUserFromState,
+        addFoodToUserBoughtFoods,
+        removeFoodFromUserBoughtFoods,
     } = useUser();
 
+    // If setting states is an async functionality, why am i getting the correct values for newFoodDividedValue and affectedUsers after running addUserToFood??
     const connectUserAndFood = ({ userId, foodId }: userAndFoodInterface) => {
         addUserToFood({ userId, foodId });
 
@@ -79,9 +85,7 @@ export const GlobalContextProvider = ({
 
         removeFoodFromUser({
             userId,
-            affectedUsers,
             foodId,
-            newFoodDividedValue,
         });
         updateAffectedUsers({
             affectedUsers,
@@ -110,20 +114,68 @@ export const GlobalContextProvider = ({
     const deleteUser = ({ userId }: { userId: number }) => {
         const userToRemove = users[userId];
         const userFoodIdList = Object.keys(userToRemove.foods);
+        const userBoughtFoodsIdList = Object.keys(userToRemove.boughtFoods);
 
         userFoodIdList.forEach((foodId) => {
             disconnectUserAndFood({ userId, foodId: Number(foodId) });
         });
+        userBoughtFoodsIdList.forEach((foodId) => {
+            removeBuyer({ userId, foodId: Number(foodId) });
+        });
+
         removeUserFromState({ userId });
     };
     const deleteFood = ({ foodId }: { foodId: number }) => {
         const foodToRemove = foods[foodId];
         const foodUsersPayingList = foodToRemove.peoplePaying;
+        const foodBuyerId = foodToRemove.buyer;
 
         foodUsersPayingList.forEach((userId) => {
             disconnectUserAndFood({ userId, foodId });
         });
+
+        if (foodBuyerId) {
+            removeBuyer({ foodId, userId: foodBuyerId });
+        }
         removeFoodFromState({ foodId });
+    };
+
+    const setBuyer = ({
+        userId,
+        foodId,
+        foodCost,
+    }: {
+        userId: number;
+        foodId: number;
+        foodCost: number;
+    }) => {
+        setBuyerForFood({ userId, foodId });
+        addFoodToUserBoughtFoods({ userId, foodId, foodCost });
+    };
+    const removeBuyer = ({
+        userId,
+        foodId,
+    }: {
+        userId: number;
+        foodId: number;
+    }) => {
+        removeBuyerFromFood({ foodId });
+        removeFoodFromUserBoughtFoods({ userId, foodId });
+    };
+    const handleToggleBuyer = ({
+        userId,
+        foodId,
+        foodCost,
+    }: {
+        userId: number;
+        foodId: number;
+        foodCost?: number;
+    }) => {
+        if (foods[foodId].buyer === userId) {
+            removeBuyer({ userId, foodId });
+        } else if (foodCost) {
+            setBuyer({ userId, foodId, foodCost });
+        }
     };
 
     //TODO: Find a way to divide the state in diferent values, to prevent unnesesary rerender of components because the object of the context is being reinstanced, maybe create individual contexts for each variable that depend on this bigger context. For example right now when you add a new food and there are no users, UserContainer rerenders and it shouldnt, since it has nothing diferent to render
@@ -145,6 +197,7 @@ export const GlobalContextProvider = ({
         editFoodValues,
         deleteFood,
         deleteUser,
+        handleToggleBuyer,
     };
 
     return (

@@ -44,6 +44,7 @@ export const useFood = () => {
                 foodCost: 0,
                 dividedValue: 0,
                 peoplePaying: [],
+                buyer: null,
             },
         };
         setFoods(newFoods);
@@ -109,6 +110,25 @@ export const useFood = () => {
 
         setFoods(newFoods);
     };
+
+    const setBuyerForFood = ({
+        userId,
+        foodId,
+    }: {
+        userId: number;
+        foodId: number;
+    }) => {
+        const newFoods = { ...foods };
+        newFoods[foodId].buyer = userId;
+
+        setFoods(newFoods);
+    };
+    const removeBuyerFromFood = ({ foodId }: { foodId: number }) => {
+        const newFoods = { ...foods };
+        newFoods[foodId].buyer = null;
+
+        setFoods(newFoods);
+    };
     //TODO: Add getFoodById, removeFood, change name for foods to only suport icons
     return {
         foods,
@@ -118,5 +138,7 @@ export const useFood = () => {
         removeUserFromFood,
         foodList,
         removeFoodFromState,
+        setBuyerForFood,
+        removeBuyerFromFood,
     };
 };

@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useState } from 'react';
 import {
-    addFoodToUserInterface,
+    updateAffectedUsersInterface,
     editUserInterface,
     removeFoodFromUserInterface,
     userInterface,
@@ -15,7 +15,7 @@ const calculateUserExpectedPay = ({
     const initialMoneySpent = currentUser.initialMoneySpent
         ? currentUser.initialMoneySpent
         : 0;
-
+    const moneySpentOnBoughtFoods = currentUser.moneySpentOnBoughtFoods;
     let newExpectedPay = 0;
 
     currentFoodsValues.forEach((foodValue) => {
@@ -24,10 +24,51 @@ const calculateUserExpectedPay = ({
     });
 
     newExpectedPay -= initialMoneySpent;
+    newExpectedPay -= moneySpentOnBoughtFoods;
     newExpectedPay = Number(newExpectedPay.toFixed(2));
     return newExpectedPay;
 };
 
+const calculateUserMoneySpentOnBoughtFoods = ({
+    currentUser,
+}: {
+    currentUser: userInterface;
+}) => {
+    const currentFoodsBoughtValues = Object.values(currentUser.boughtFoods);
+
+    let newMoneySpentOnBoughtFoods = 0;
+
+    currentFoodsBoughtValues.forEach((foodCost) => {
+        const realFoodCost = foodCost ? foodCost : 0;
+        newMoneySpentOnBoughtFoods += realFoodCost;
+    });
+
+    newMoneySpentOnBoughtFoods = Number(newMoneySpentOnBoughtFoods);
+    return newMoneySpentOnBoughtFoods;
+};
+
+const createNewUserInUsersObject = ({
+    newUsers,
+    newUserId,
+    newUserName,
+}: {
+    newUsers: userInterface | {};
+    newUserId: number;
+    newUserName: string;
+}) => {
+    return {
+        ...newUsers,
+        [newUserId]: {
+            userId: newUserId,
+            userName: newUserName,
+            initialMoneySpent: 0,
+            foods: {},
+            expectedPay: 0,
+            boughtFoods: {},
+            moneySpentOnBoughtFoods: 0,
+        },
+    };
+};
 export const useUser = () => {
     const [userIdCounter, setUserIdCounter] = useState(0);
     const getNewId = () => {
@@ -43,16 +84,11 @@ export const useUser = () => {
             const savedUsers = JSON.parse(savedLocalStorage);
 
             savedUsers.forEach((userName: string, index: number) => {
-                newUsers = {
-                    ...newUsers,
-                    [index]: {
-                        userId: userName,
-                        userName,
-                        initialMoneySpent: 0,
-                        foods: {},
-                        expectedPay: 0,
-                    },
-                };
+                newUsers = createNewUserInUsersObject({
+                    newUsers,
+                    newUserId: index,
+                    newUserName: userName,
+                });
             });
             setUserIdCounter(savedUsers.length);
         }
@@ -86,16 +122,12 @@ export const useUser = () => {
     };
     const addUser = (userName = 'New') => {
         const newUserId = getNewId();
-        const newUsers = {
-            ...users,
-            [newUserId]: {
-                userId: newUserId,
-                userName,
-                initialMoneySpent: 0,
-                foods: {},
-                expectedPay: 0,
-            },
-        };
+
+        const newUsers = createNewUserInUsersObject({
+            newUsers: users,
+            newUserId: newUserId,
+            newUserName: userName,
+        });
         setUsers(newUsers);
     };
 
@@ -125,7 +157,7 @@ export const useUser = () => {
         affectedUsers,
         foodId,
         newFoodDividedValue,
-    }: addFoodToUserInterface) => {
+    }: updateAffectedUsersInterface) => {
         const newUsers = { ...users };
         affectedUsers.forEach((userId: number) => {
             const currentUser = newUsers[userId];
@@ -174,6 +206,51 @@ export const useUser = () => {
 
         setUsers(newUsers);
     };
+
+    const addFoodToUserBoughtFoods = ({
+        userId,
+        foodId,
+        foodCost,
+    }: {
+        userId: number;
+        foodId: number;
+        foodCost: number;
+    }) => {
+        const newUsers = { ...users };
+        newUsers[userId].boughtFoods = {
+            ...newUsers[userId].boughtFoods,
+            [foodId]: foodCost,
+        };
+        newUsers[userId].moneySpentOnBoughtFoods =
+            calculateUserMoneySpentOnBoughtFoods({
+                currentUser: newUsers[userId],
+            });
+        newUsers[userId].expectedPay = calculateUserExpectedPay({
+            currentUser: newUsers[userId],
+        });
+
+        setUsers(newUsers);
+    };
+    const removeFoodFromUserBoughtFoods = ({
+        userId,
+        foodId,
+    }: {
+        userId: number;
+        foodId: number;
+    }) => {
+        const newUsers = { ...users };
+        delete newUsers[userId].boughtFoods[foodId];
+
+        newUsers[userId].moneySpentOnBoughtFoods =
+            calculateUserMoneySpentOnBoughtFoods({
+                currentUser: newUsers[userId],
+            });
+        newUsers[userId].expectedPay = calculateUserExpectedPay({
+            currentUser: newUsers[userId],
+        });
+
+        setUsers(newUsers);
+    };
     //TODO: Create getUserById, removeUser, lockUser. Maybe add emojis for names?
 
     return {
@@ -185,5 +262,7 @@ export const useUser = () => {
         addFoodToUser,
         removeFoodFromUser,
         removeUserFromState,
+        addFoodToUserBoughtFoods,
+        removeFoodFromUserBoughtFoods,
     };
 };

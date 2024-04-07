@@ -1,0 +1,17 @@
+.user-expected-pay {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    .user-expected-pay-title {
+        margin-bottom: 4px;
+    }
+    .user-expected-pay-amount {
+        &.should-pay {
+            color: red;
+        }
+        &.should-recieve {
+            color: green;
+        }
+    }
+}

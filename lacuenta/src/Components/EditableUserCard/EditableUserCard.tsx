@@ -4,6 +4,9 @@ import { ConnectorCheckbox } from '../ConnectorCheckbox';
 import './EditableUserCard.scss';
 import { Card } from '../Card';
 import { USER_TYPE } from '../../Constants';
+import { UserName } from './UserName';
+import { UserMoneySpent } from './UserMoneySpent';
+import { UserExpectedPay } from './UserExpectedPay';
 
 export const EditableUserCard = ({ userId }: { userId: number }) => {
     const { editUser, foodList, foods, users, deleteUser } =
@@ -56,13 +59,33 @@ export const EditableUserCard = ({ userId }: { userId: number }) => {
     const moneyToPayAmount = expectedPay >= 0 ? expectedPay : expectedPay * -1;
     const cssClassSpecialValue = expectedPay >= 0 ? 'red' : 'green';
 
+    const itemTitle = (
+        <UserName
+            userId={userId}
+            userName={userName}
+            handleOnNameChange={handleOnNameChange}
+        />
+    );
+
+    const itemFirstValue = (
+        <UserMoneySpent
+            userId={userId}
+            userMoneySpent={initialMoneySpent}
+            handleOnUserSpentMoneyChange={handleOnMoneyChange}
+        />
+    );
+
+    const itemSecondValue = (
+        <UserExpectedPay userId={userId} userExpectedPay={expectedPay} />
+    );
+
     return (
         <Card
             itemType={USER_TYPE}
             Id={userId}
             handleOnItemNameChange={handleOnNameChange}
             itemName={userName}
-            itemMoneyTitle="Ya gastado:"
+            itemMoneyTitle="Gastado:"
             handleOnItemMoneyChange={handleOnMoneyChange}
             itemMoneyValue={initialMoneySpent}
             itemMoneyPlaceholderValue="No money"
@@ -71,6 +94,10 @@ export const EditableUserCard = ({ userId }: { userId: number }) => {
             checkboxList={checkboxList}
             cssClassSpecialValue={cssClassSpecialValue}
             handleOnDeleteItem={handleOnDeleteItem}
+            // New
+            itemTitle={itemTitle}
+            itemFirstValue={itemFirstValue}
+            itemSecondValue={itemSecondValue}
         />
     );
 };

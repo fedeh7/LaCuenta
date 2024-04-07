@@ -6,6 +6,17 @@ export interface foodInterface {
     foodCost: number;
     dividedValue: number;
     peoplePaying: number[];
+    buyer: number | null;
+}
+
+export interface userInterface {
+    userId: number;
+    userName: string;
+    initialMoneySpent: number;
+    foods: foodsConsumedInterface;
+    expectedPay: number;
+    boughtFoods: foodsBoughtInterface;
+    moneySpentOnBoughtFoods: number;
 }
 
 export interface userAndFoodInterface {
@@ -19,18 +30,14 @@ export interface editFoodInterface {
     newFoodCost?: number;
 }
 
-export interface foodsArrayInterface {
+export interface foodsConsumedInterface {
     [dynamic: number]: number;
 }
-export interface userInterface {
-    userId: number;
-    userName: string;
-    initialMoneySpent: number;
-    foods: foodsArrayInterface;
-    expectedPay: number;
+export interface foodsBoughtInterface {
+    [dynamic: number]: number;
 }
 
-export interface addFoodToUserInterface {
+export interface updateAffectedUsersInterface {
     affectedUsers: number[];
     foodId: number;
     newFoodDividedValue: number;
@@ -38,9 +45,7 @@ export interface addFoodToUserInterface {
 
 export interface removeFoodFromUserInterface {
     userId: number;
-    affectedUsers: number[];
     foodId: number;
-    newFoodDividedValue: number;
 }
 
 export interface editUserInterface {
@@ -76,4 +81,13 @@ export interface stateInterface {
     disconnectUserAndFood: ({ userId, foodId }: userAndFoodInterface) => void;
     deleteUser: ({ userId }: { userId: number }) => void;
     deleteFood: ({ foodId }: { foodId: number }) => void;
+    handleToggleBuyer: ({
+        foodId,
+        userId,
+        foodCost,
+    }: {
+        foodId: number;
+        userId: number;
+        foodCost?: number;
+    }) => void;
 }

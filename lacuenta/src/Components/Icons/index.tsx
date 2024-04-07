@@ -29,7 +29,14 @@ import { foodValues } from '../../Constants/interfaces';
 import './Icon.scss';
 
 const Icon = ({ imageUrl, altText }: { imageUrl: string; altText: string }) => {
-    return <img className="icon-base" src={imageUrl} alt={altText} />;
+    return (
+        <img
+            className="icon-base"
+            src={imageUrl}
+            alt={altText}
+            draggable={false}
+        />
+    );
 };
 
 export const FoodIconRenderer = ({ icon }: { icon: foodValues }) => {

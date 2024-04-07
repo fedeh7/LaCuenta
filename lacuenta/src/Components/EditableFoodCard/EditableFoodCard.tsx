@@ -6,6 +6,9 @@ import { foodInterface } from '../../Context/Interfaces';
 import { Card } from '../Card';
 import { IconSelector } from '../IconSelector';
 import { FOOD_TYPE } from '../../Constants';
+import { FoodName } from './FoodName';
+import { FoodCost } from './FoodCost';
+import { FoodDividedValue } from './FoodDividedValue';
 
 export const EditableFoodCard = ({ food }: { food: foodInterface }) => {
     const { userList, users, editFoodValues, deleteFood } =
@@ -60,6 +63,19 @@ export const EditableFoodCard = ({ food }: { food: foodInterface }) => {
             handleOnIconChange={handleOnNameChange}
         />
     );
+    const itemTitle = (
+        <FoodName foodName={foodName} handleOnNameChange={handleOnNameChange} />
+    );
+    const itemFirstValue = (
+        <FoodCost
+            foodCost={foodCost}
+            foodId={foodId}
+            handleOnFoodCostChange={handleOnCostChange}
+        />
+    );
+    const itemSecondValue = (
+        <FoodDividedValue foodDividedValue={dividedValue} foodId={foodId} />
+    );
     return (
         <Card
             itemType={FOOD_TYPE}
@@ -75,6 +91,10 @@ export const EditableFoodCard = ({ food }: { food: foodInterface }) => {
             checkboxList={checkboxList}
             nameIconSelector={nameIconSelector}
             handleOnDeleteItem={handleOnDeleteItem}
+            // New
+            itemTitle={itemTitle}
+            itemFirstValue={itemFirstValue}
+            itemSecondValue={itemSecondValue}
         />
     );
 };
