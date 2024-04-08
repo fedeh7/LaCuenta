@@ -24,6 +24,7 @@ export const CustomInput = ({
             setWidth(newWidth);
         }
     }, [value]);
+
     const highlightOnFocus = (e: any) => {
         e.target.select();
     };
@@ -31,7 +32,7 @@ export const CustomInput = ({
     return (
         <div className="input-wrapper">
             <span className="hidden-horizontal-measurement" ref={span}>
-                {value}
+                {value ? value : placeholderText}
             </span>
             <input
                 className="custom-input"

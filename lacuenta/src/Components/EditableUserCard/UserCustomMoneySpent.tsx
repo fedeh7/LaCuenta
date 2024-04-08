@@ -19,7 +19,7 @@ export const UserCustomMoneySpent = ({
                     inputType="number"
                     onChange={handleOnUserSpentMoneyChange}
                     value={userMoneySpent}
-                    placeholderText="No money"
+                    placeholderText="No changes"
                 />
             </div>
         </div>
