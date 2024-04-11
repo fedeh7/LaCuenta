@@ -12,7 +12,7 @@ export const UserCustomMoneySpent = ({
 }) => {
     return (
         <div className="user-spent-money">
-            <p className="user-spent-money-title">Extra</p>
+            <p className="user-spent-money-title">Gastado Extra</p>
             <div className="user-spent-money-value">
                 <CustomInput
                     inputName={`userMoneySpent-${userId}`}
