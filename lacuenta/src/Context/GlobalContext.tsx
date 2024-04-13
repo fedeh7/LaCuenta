@@ -7,25 +7,6 @@ import {
 import { useFood } from './FoodHooks';
 import { useUser } from './UserHooks';
 
-const defaultState = {
-    users: {},
-    userList: [],
-    addUser: () => {},
-    editUser: () => {},
-
-    foods: {},
-    foodList: [],
-    addFood: () => {},
-    editFoodValues: () => {},
-
-    updateFoodsValueOnUsers: () => {},
-    deleteUser: () => {},
-    deleteFood: () => {},
-    handleToggleBuyer: () => {},
-    handleToggleUserConsumesFood: () => {},
-    handleToggleFoodUnitsStatus: () => {},
-} as stateInterface;
-
 export const GlobalContext = createContext<stateInterface>(null!);
 
 export const GlobalContextProvider = ({
@@ -44,6 +25,7 @@ export const GlobalContextProvider = ({
         setBuyerForFood,
         removeBuyerFromFood,
         toggleUnitsStatus,
+        setFoodUnitsAmount,
     } = useFood();
     const {
         users,
@@ -56,14 +38,16 @@ export const GlobalContextProvider = ({
         removeUserFromState,
         addFoodToUserBoughtFoods,
         removeFoodFromUserBoughtFoods,
+        setUserUnitsConsumed,
     } = useUser();
 
     // If setting states is an async functionality, why am i getting the correct values for newFoodDividedValue and affectedUsers after running addUserToFood??
     const connectUserAndFood = ({ userId, foodId }: userAndFoodInterface) => {
         addUserToFood({ userId, foodId });
 
-        const newFoodDividedValue = foods[foodId].dividedValue;
-        const affectedUsers = foods[foodId].peoplePaying;
+        const { dividedValue, buyer, unitsCost, useUnits, foodCost } =
+            foods[foodId];
+        const affectedUsers = Object.keys(foods[foodId].peoplePaying);
 
         addFoodToUser({
             foodId,
@@ -72,7 +56,11 @@ export const GlobalContextProvider = ({
         updateAffectedUsers({
             affectedUsers,
             foodId,
-            newFoodDividedValue,
+            newFoodDividedValue: dividedValue,
+            newFoodCost: foodCost,
+            foodBuyer: buyer,
+            unitsCost,
+            useUnits,
         });
     };
     const disconnectUserAndFood = ({
@@ -81,8 +69,9 @@ export const GlobalContextProvider = ({
     }: userAndFoodInterface) => {
         removeUserFromFood({ userId, foodId });
 
-        const affectedUsers = foods[foodId].peoplePaying;
-        const newFoodDividedValue = foods[foodId].dividedValue;
+        const affectedUsers = Object.keys(foods[foodId].peoplePaying);
+        const { dividedValue, buyer, unitsCost, useUnits, foodCost } =
+            foods[foodId];
 
         removeFoodFromUser({
             userId,
@@ -91,7 +80,11 @@ export const GlobalContextProvider = ({
         updateAffectedUsers({
             affectedUsers,
             foodId,
-            newFoodDividedValue,
+            newFoodDividedValue: dividedValue,
+            newFoodCost: foodCost,
+            foodBuyer: buyer,
+            unitsCost,
+            useUnits,
         });
     };
 
@@ -119,16 +112,17 @@ export const GlobalContextProvider = ({
     }: editFoodInterface) => {
         editFood({ foodId, newFoodName, newFoodCost });
         if (newFoodCost != undefined) {
-            const affectedUsers = foods[foodId].peoplePaying;
-            const newFoodDividedValue = foods[foodId].dividedValue;
-            const foodBuyer = foods[foodId].buyer;
+            const affectedUsers = Object.keys(foods[foodId].peoplePaying);
+            const { dividedValue, buyer, unitsCost, useUnits } = foods[foodId];
 
             updateAffectedUsers({
                 affectedUsers,
                 foodId,
-                newFoodDividedValue,
+                newFoodDividedValue: dividedValue,
                 newFoodCost,
-                foodBuyer,
+                foodBuyer: buyer,
+                unitsCost,
+                useUnits,
             });
         }
     };
@@ -149,10 +143,11 @@ export const GlobalContextProvider = ({
     };
     const deleteFood = ({ foodId }: { foodId: number }) => {
         const foodToRemove = foods[foodId];
-        const foodUsersPayingList = foodToRemove.peoplePaying;
+        const foodUsersPayingList = Object.keys(foodToRemove.peoplePaying);
         const foodBuyerId = foodToRemove.buyer;
 
-        foodUsersPayingList.forEach((userId) => {
+        foodUsersPayingList.forEach((userIdString) => {
+            const userId = Number(userIdString);
             disconnectUserAndFood({ userId, foodId });
         });
 
@@ -210,8 +205,51 @@ export const GlobalContextProvider = ({
     };
     const handleToggleFoodUnitsStatus = ({ foodId }: { foodId: number }) => {
         toggleUnitsStatus({ foodId });
-        // const affectedUsers = foods[foodId].peoplePaying;
-        // updateAffectedUsers({affectedUsers, foodId,})
+        const affectedUsers = Object.keys(foods[foodId].peoplePaying);
+        const { dividedValue, buyer, unitsCost, useUnits, foodCost } =
+            foods[foodId];
+        updateAffectedUsers({
+            affectedUsers,
+            foodId,
+            newFoodDividedValue: dividedValue,
+            newFoodCost: foodCost,
+            foodBuyer: buyer,
+            unitsCost,
+            useUnits,
+        });
+    };
+    const handleSetNewUnitsAmount = ({
+        foodId,
+        userId,
+        unitsAmount,
+        shouldConnectUserAndFood,
+    }: {
+        foodId: number;
+        userId: number;
+        unitsAmount: number;
+        shouldConnectUserAndFood: boolean;
+    }) => {
+        if (shouldConnectUserAndFood) {
+            connectUserAndFood({ userId, foodId });
+        }
+        if (!unitsAmount || unitsAmount === 0) {
+            disconnectUserAndFood({ userId, foodId });
+        } else {
+            setFoodUnitsAmount({ foodId, userId, unitsAmount });
+            setUserUnitsConsumed({ foodId, userId, unitsAmount });
+            const affectedUsers = Object.keys(foods[foodId].peoplePaying);
+            const { dividedValue, buyer, unitsCost, useUnits, foodCost } =
+                foods[foodId];
+            updateAffectedUsers({
+                affectedUsers,
+                foodId,
+                newFoodDividedValue: dividedValue,
+                newFoodCost: foodCost,
+                foodBuyer: buyer,
+                unitsCost,
+                useUnits,
+            });
+        }
     };
 
     //TODO: Find a way to divide the state in diferent values, to prevent unnesesary rerender of components because the object of the context is being reinstanced, maybe create individual contexts for each variable that depend on this bigger context. For example right now when you add a new food and there are no users, UserContainer rerenders and it shouldnt, since it has nothing diferent to render
@@ -234,6 +272,7 @@ export const GlobalContextProvider = ({
         handleToggleBuyer,
         handleToggleUserConsumesFood,
         handleToggleFoodUnitsStatus,
+        handleSetNewUnitsAmount,
     };
 
     return (

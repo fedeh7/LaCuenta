@@ -1,5 +1,21 @@
 .food-units-toggle-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    gap: 4px;
     .food-units-toggle-button {
+        padding: 4px;
+        border: solid 1px red;
+        border-radius: 5px;
+        width: 40px;
+        text-align: center;
+        &.on {
+            background-color: green;
+            border-color: white;
+        }
+        &.off {
+        }
     }
     .food-units-total {
     }

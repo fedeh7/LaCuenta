@@ -18,15 +18,15 @@ export const EditableUserCard = ({ userId }: { userId: number }) => {
     const handleOnDeleteItem = () => {
         deleteUser({ userId });
     };
-    const handleOnNameChange = (e: any) => {
+    const handleOnNameChange = (newName: string) => {
         updateUserData({
-            newUserName: e.target.value,
+            newUserName: newName,
         });
     };
 
-    const handleOnMoneyChange = (e: any) => {
+    const handleOnMoneyChange = (newMoney: number) => {
         updateUserData({
-            newInitialMoneySpent: e.target.value,
+            newInitialMoneySpent: newMoney,
         });
     };
 
@@ -34,8 +34,8 @@ export const EditableUserCard = ({ userId }: { userId: number }) => {
         newUserName,
         newInitialMoneySpent,
     }: {
-        newUserName?: any;
-        newInitialMoneySpent?: any;
+        newUserName?: string;
+        newInitialMoneySpent?: number;
     }) => {
         editUser({
             userId,

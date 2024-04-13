@@ -1,3 +1,4 @@
+import { INPUT_NUMBER } from '../../Constants';
 import { CustomInput } from '../CustomInput';
 import './FoodCost.scss';
 
@@ -16,7 +17,7 @@ export const FoodCost = ({
             <div className="food-cost-input">
                 <CustomInput
                     inputName={`foodCost-${foodId}`}
-                    inputType="number"
+                    inputType={INPUT_NUMBER}
                     onChange={handleOnFoodCostChange}
                     value={foodCost}
                     placeholderText="Free"

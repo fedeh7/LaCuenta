@@ -28,6 +28,9 @@ import {
 export const USER_TYPE = 'user';
 export const FOOD_TYPE = 'food';
 export const cardTypesValues = [USER_TYPE, FOOD_TYPE] as const;
+// Input types
+export const INPUT_NUMBER = 'number';
+export const INPUT_TEXT = 'text';
 
 // Food Icons
 export const HAMBURGER_ICON = 'hamburger';

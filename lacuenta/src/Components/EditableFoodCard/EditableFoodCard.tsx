@@ -5,6 +5,7 @@ import { ConnectorCheckbox } from '../ConnectorCheckbox';
 import { foodInterface } from '../../Context/Interfaces';
 import { Card } from '../Card';
 import { FoodDataTable } from './FoodDataTable';
+import { foodValues } from '../../Constants/interfaces';
 
 export const EditableFoodCard = ({ food }: { food: foodInterface }) => {
     const {
@@ -21,20 +22,21 @@ export const EditableFoodCard = ({ food }: { food: foodInterface }) => {
         dividedValue,
         useUnits,
         unitsConsumedTotal,
+        unitsCost,
     } = food;
 
     const handleOnDeleteItem = () => {
         deleteFood({ foodId });
     };
-    const handleOnNameChange = (e: string) => {
+    const handleOnNameChange = (newName: foodValues) => {
         updateFoodData({
-            newFoodName: e,
+            newFoodName: newName,
         });
     };
 
-    const handleOnCostChange = (e: any) => {
+    const handleOnCostChange = (newCost: number) => {
         updateFoodData({
-            newFoodCost: e.target.value,
+            newFoodCost: newCost,
         });
     };
 
@@ -46,8 +48,8 @@ export const EditableFoodCard = ({ food }: { food: foodInterface }) => {
         newFoodName,
         newFoodCost,
     }: {
-        newFoodName?: any;
-        newFoodCost?: any;
+        newFoodName?: foodValues;
+        newFoodCost?: number;
     }) => {
         editFoodValues({
             foodId,
@@ -80,6 +82,7 @@ export const EditableFoodCard = ({ food }: { food: foodInterface }) => {
             useUnits={useUnits}
             handleOnToggleUnits={handleOnToggleUnits}
             totalUnits={unitsConsumedTotal}
+            unitsCost={unitsCost}
         />
     );
     return (

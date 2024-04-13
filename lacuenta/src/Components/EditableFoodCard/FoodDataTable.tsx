@@ -16,16 +16,18 @@ export const FoodDataTable = ({
     useUnits,
     handleOnToggleUnits,
     totalUnits,
+    unitsCost,
 }: {
     foodName: foodValues;
     foodCost: number;
     foodId: number;
-    handleOnNameChange: (e: any) => void;
-    handleOnFoodCostChange: (e: any) => void;
+    handleOnNameChange: (newFoodName: foodValues) => void;
+    handleOnFoodCostChange: (newFoodCost: number) => void;
     foodDividedValue: number;
     useUnits: boolean;
     handleOnToggleUnits: (e: any) => void;
     totalUnits: number;
+    unitsCost: number;
 }) => {
     return (
         <div className="food-data-table-container">
@@ -46,6 +48,8 @@ export const FoodDataTable = ({
                 <FoodDividedValue
                     foodDividedValue={foodDividedValue}
                     foodId={foodId}
+                    useUnits={useUnits}
+                    unitsCost={unitsCost}
                 />
             </div>
             <div className="food-toggle-type flex-centered">

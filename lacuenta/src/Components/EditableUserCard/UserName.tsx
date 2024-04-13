@@ -1,3 +1,4 @@
+import { INPUT_TEXT } from '../../Constants';
 import { CustomInput } from '../CustomInput';
 import './UserName.scss';
 
@@ -14,7 +15,7 @@ export const UserName = ({
         <div className={`user-name ${userId}`}>
             <CustomInput
                 inputName={`userName-${userId}`}
-                inputType="text"
+                inputType={INPUT_TEXT}
                 onChange={handleOnNameChange}
                 value={userName}
                 placeholderText="Unknown"

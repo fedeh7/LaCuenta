@@ -5,7 +5,9 @@ export interface foodInterface {
     foodName: foodValues;
     foodCost: number;
     dividedValue: number;
-    peoplePaying: number[];
+    peoplePaying: {
+        [dynamic: number]: number | undefined;
+    };
     buyer: number | null;
     useUnits: boolean;
     unitsConsumedTotal: number;
@@ -37,7 +39,7 @@ export interface foodsConsumedInterface {
     [dynamic: number]: {
         dividedValue: number;
         useUnits: boolean;
-        unitsConsumed: number;
+        unitsConsumed: number | undefined;
         unitsCost: number;
         unitsTotalSpent: number;
     };
@@ -47,11 +49,13 @@ export interface foodsBoughtInterface {
 }
 
 export interface updateAffectedUsersInterface {
-    affectedUsers: number[];
+    affectedUsers: string[];
     foodId: number;
-    newFoodDividedValue: number;
-    newFoodCost?: number;
-    foodBuyer?: number | null;
+    newFoodDividedValue?: number;
+    newFoodCost: number;
+    foodBuyer: number | null;
+    useUnits: boolean;
+    unitsCost: number;
 }
 
 export interface removeFoodFromUserInterface {
@@ -111,4 +115,15 @@ export interface stateInterface {
         foodCost: number;
     }) => void;
     handleToggleFoodUnitsStatus: ({ foodId }: { foodId: number }) => void;
+    handleSetNewUnitsAmount: ({
+        foodId,
+        userId,
+        unitsAmount,
+        shouldConnectUserAndFood,
+    }: {
+        foodId: number;
+        userId: number;
+        unitsAmount: number;
+        shouldConnectUserAndFood: boolean;
+    }) => void;
 }

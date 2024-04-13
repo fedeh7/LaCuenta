@@ -30,6 +30,7 @@ export const IconContainer = ({
         </div>
     );
 };
+// TODO: Add many more icons, and divide them in tabs inside the tooltip, the tooltip will have to be bigger and probably relocate it somewhere it would fit
 export const IconSelector = ({
     foodIcon,
     handleOnIconChange,

@@ -27,6 +27,7 @@ const calculateUserExpectedPay = ({
         },
         0,
     );
+
     const initialMoneySpent = currentUser.initialMoneySpent
         ? currentUser.initialMoneySpent
         : 0;
@@ -36,6 +37,7 @@ const calculateUserExpectedPay = ({
     newExpectedPay -= initialMoneySpent;
     newExpectedPay -= moneySpentOnBoughtFoods;
     newExpectedPay = Number(newExpectedPay.toFixed(2));
+
     return newExpectedPay;
 };
 
@@ -55,6 +57,19 @@ const calculateUserMoneySpentOnBoughtFoods = ({
 
     newMoneySpentOnBoughtFoods = Number(newMoneySpentOnBoughtFoods);
     return newMoneySpentOnBoughtFoods;
+};
+
+const calculateUserTotalSpentInUnits = ({
+    currentUser,
+    foodId,
+}: {
+    currentUser: userInterface;
+    foodId: number;
+}) => {
+    const consumedUnits = currentUser.foods[foodId].unitsConsumed
+        ? currentUser.foods[foodId].unitsConsumed
+        : 0;
+    return consumedUnits! * currentUser.foods[foodId].unitsCost;
 };
 
 const createNewUserInUsersObject = ({
@@ -79,6 +94,7 @@ const createNewUserInUsersObject = ({
         },
     };
 };
+
 export const useUser = () => {
     const [userIdCounter, setUserIdCounter] = useState(1);
     const getNewId = () => {
@@ -170,24 +186,35 @@ export const useUser = () => {
         affectedUsers,
         foodId,
         newFoodDividedValue,
-        newFoodCost = 0,
-        foodBuyer = null,
+        newFoodCost,
+        foodBuyer,
+        useUnits,
+        unitsCost,
     }: updateAffectedUsersInterface) => {
         const newUsers = { ...users };
-        affectedUsers.forEach((userId: number) => {
+        affectedUsers.forEach((userIdString: string) => {
+            const userId = Number(userIdString);
             const currentUser = newUsers[userId];
             currentUser.foods = {
                 ...currentUser.foods,
                 [foodId]: {
                     ...currentUser.foods[foodId],
-                    dividedValue: newFoodDividedValue,
+                    ...((newFoodDividedValue || newFoodDividedValue === 0) && {
+                        dividedValue: newFoodDividedValue,
+                    }),
+                    ...(useUnits !== undefined && { useUnits }),
+                    ...((unitsCost || unitsCost === 0) && { unitsCost }),
                 },
             };
-
+            currentUser.foods[foodId].unitsTotalSpent =
+                calculateUserTotalSpentInUnits({ currentUser, foodId });
             currentUser.expectedPay = calculateUserExpectedPay({ currentUser });
         });
 
-        if (foodBuyer != null) {
+        if (
+            (foodBuyer || foodBuyer === 0) &&
+            (newFoodCost || newFoodCost === 0)
+        ) {
             newUsers[foodBuyer].boughtFoods[foodId] = newFoodCost;
             newUsers[foodBuyer].moneySpentOnBoughtFoods =
                 calculateUserMoneySpentOnBoughtFoods({
@@ -214,6 +241,10 @@ export const useUser = () => {
             [foodId]: {
                 ...currentUser.foods[foodId],
                 dividedValue: 0,
+                useUnits: false,
+                unitsConsumed: 1,
+                unitsCost: 0,
+                unitsTotalSpent: 0,
             },
         };
 
@@ -281,6 +312,8 @@ export const useUser = () => {
         }
         setUsers(newUsers);
     };
+
+    // TODO: This functions logic is also in addFoodToUserBoughtFoods, its repeated, probably having a single function would be better, like a toggle or something
     const removeFoodFromUserBoughtFoods = ({
         userId,
         foodId,
@@ -301,6 +334,27 @@ export const useUser = () => {
 
         setUsers(newUsers);
     };
+
+    const setUserUnitsConsumed = ({
+        userId,
+        foodId,
+        unitsAmount,
+    }: {
+        userId: number;
+        foodId: number;
+        unitsAmount: number;
+    }) => {
+        const newUsers = { ...users };
+
+        newUsers[userId].foods[foodId].unitsConsumed = unitsAmount;
+
+        newUsers[userId].expectedPay = calculateUserExpectedPay({
+            currentUser: newUsers[userId],
+        });
+
+        setUsers(newUsers);
+    };
+
     //TODO: Create getUserById, removeUser, lockUser. Maybe add emojis for names?
 
     return {
@@ -314,5 +368,6 @@ export const useUser = () => {
         removeUserFromState,
         addFoodToUserBoughtFoods,
         removeFoodFromUserBoughtFoods,
+        setUserUnitsConsumed,
     };
 };

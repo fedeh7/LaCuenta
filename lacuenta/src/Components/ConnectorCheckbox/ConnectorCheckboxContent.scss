@@ -1,0 +1,24 @@
+.connector-checkbox-content {
+    position: relative;
+    .connector-checkbox-content-name {
+        .connector-checkbox-icon {
+            height: 40px;
+            width: 40px;
+        }
+        .connector-checkbox-text {
+            font-size: large;
+            font-weight: 700;
+        }
+    }
+    .connector-checkbox-content-units {
+        // This is added to reflect the padding that comes by default in the icon images
+        &.padding-right {
+            padding-right: 6px;
+        }
+        .connector-checkbox-content-units-divider {
+            margin-right: 4px;
+        }
+        .connector-checkbox-content-units-tooltip {
+        }
+    }
+}

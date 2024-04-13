@@ -10,14 +10,17 @@ export const FoodUnitsToggle = ({
     totalUnits: number;
 }) => {
     const buttonText = useUnits ? 'ON' : 'OFF';
+    const totalUnitsText = `Unidades: ${totalUnits}`;
     return (
         <div className="food-units-toggle-container">
             <div
-                className="food-units-toggle-button"
+                className={`food-units-toggle-button ${
+                    useUnits ? 'on' : 'off'
+                }`}
                 onClick={handleOnToggleUnits}>
                 {buttonText}
             </div>
-            <div className="food-units-total">{totalUnits}</div>
+            <div className="food-units-total">{totalUnitsText}</div>
         </div>
     );
 };

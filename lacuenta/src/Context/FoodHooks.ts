@@ -10,16 +10,58 @@ const calculateNewDividedValue = ({
     peoplePaying,
     foodCost,
 }: {
-    peoplePaying: number[];
+    peoplePaying: {
+        [dynamic: number]: number | undefined;
+    };
     foodCost: number;
 }) => {
-    let newFoodCost = 0;
+    let newDividedValue = 0;
     const totalValue = foodCost ? foodCost : 0;
-    if (peoplePaying.length) {
-        newFoodCost = totalValue / peoplePaying.length;
+    const peoplePayingList = Object.keys(peoplePaying);
+    if (peoplePayingList.length) {
+        newDividedValue = totalValue / peoplePayingList.length;
     }
-    newFoodCost = Number(newFoodCost.toFixed(2));
-    return newFoodCost;
+    newDividedValue = Number(newDividedValue.toFixed(2));
+    return newDividedValue;
+};
+
+const calculateNewUnitCost = ({
+    unitsConsumedTotal,
+    foodCost,
+}: {
+    unitsConsumedTotal: number;
+    foodCost: number;
+}) => {
+    let newUnitCost = 0;
+    const totalValue = foodCost ? foodCost : 0;
+    if (unitsConsumedTotal) {
+        newUnitCost = totalValue / unitsConsumedTotal;
+    }
+    newUnitCost = Number(newUnitCost.toFixed(2));
+
+    return newUnitCost;
+};
+
+const calculateUnitsConsumedTotal = ({
+    peoplePaying,
+}: {
+    peoplePaying: {
+        [dynamic: number]: number | undefined;
+    };
+}) => {
+    const peoplePayingList = Object.keys(peoplePaying);
+    const newUnitsConsumedTotal = peoplePayingList.reduce(
+        (accumulator: number, currentValue: string) => {
+            const id = Number(currentValue);
+            if (peoplePaying[id] !== undefined) {
+                return accumulator + peoplePaying[id]!;
+            }
+            return accumulator;
+        },
+        0,
+    );
+
+    return newUnitsConsumedTotal;
 };
 
 export const useFood = () => {
@@ -43,7 +85,7 @@ export const useFood = () => {
                 foodName: HAMBURGER_ICON,
                 foodCost: 0,
                 dividedValue: 0,
-                peoplePaying: [],
+                peoplePaying: {},
                 buyer: null,
                 useUnits: false,
                 unitsConsumedTotal: 0,
@@ -71,6 +113,10 @@ export const useFood = () => {
                 peoplePaying: foods[foodId].peoplePaying,
                 foodCost: newFoodCost,
             });
+            currentFood.unitsCost = calculateNewUnitCost({
+                foodCost: currentFood.foodCost,
+                unitsConsumedTotal: currentFood.unitsConsumedTotal,
+            });
         }
 
         setFoods(newFoods);
@@ -81,11 +127,19 @@ export const useFood = () => {
             ...foods,
         };
         const currentFood = newFoods[foodId];
+        currentFood.peoplePaying = { ...currentFood.peoplePaying, [userId]: 1 };
 
-        currentFood.peoplePaying.push(userId);
         currentFood.dividedValue = calculateNewDividedValue({
             foodCost: currentFood.foodCost,
             peoplePaying: currentFood.peoplePaying,
+        });
+        currentFood.unitsConsumedTotal = calculateUnitsConsumedTotal({
+            peoplePaying: currentFood.peoplePaying,
+        });
+
+        currentFood.unitsCost = calculateNewUnitCost({
+            foodCost: currentFood.foodCost,
+            unitsConsumedTotal: currentFood.unitsConsumedTotal,
         });
 
         setFoods(newFoods);
@@ -94,14 +148,21 @@ export const useFood = () => {
         const newFoods = {
             ...foods,
         };
-        const currentFood = newFoods[foodId];
 
-        currentFood.peoplePaying = currentFood.peoplePaying.filter(
-            (payingUser: number) => payingUser !== userId,
-        );
+        const currentFood = newFoods[foodId];
+        delete currentFood.peoplePaying[userId];
+        // TODO: these following functions seem to be used in the same way and order in other places withtin this file, consider extracting this login into a new function
         currentFood.dividedValue = calculateNewDividedValue({
             foodCost: currentFood.foodCost,
             peoplePaying: currentFood.peoplePaying,
+        });
+        currentFood.unitsConsumedTotal = calculateUnitsConsumedTotal({
+            peoplePaying: currentFood.peoplePaying,
+        });
+
+        currentFood.unitsCost = calculateNewUnitCost({
+            foodCost: currentFood.foodCost,
+            unitsConsumedTotal: currentFood.unitsConsumedTotal,
         });
 
         setFoods(newFoods);
@@ -136,9 +197,33 @@ export const useFood = () => {
     const toggleUnitsStatus = ({ foodId }: { foodId: number }) => {
         const newFoods = { ...foods };
         newFoods[foodId].useUnits = !newFoods[foodId].useUnits;
-        console.log('seted');
         setFoods(newFoods);
     };
+
+    const setFoodUnitsAmount = ({
+        foodId,
+        userId,
+        unitsAmount,
+    }: {
+        foodId: number;
+        userId: number;
+        unitsAmount: number;
+    }) => {
+        const newFoods = { ...foods };
+        const currentFood = newFoods[foodId];
+        currentFood.peoplePaying[userId] = unitsAmount;
+
+        currentFood.unitsConsumedTotal = calculateUnitsConsumedTotal({
+            peoplePaying: currentFood.peoplePaying,
+        });
+
+        currentFood.unitsCost = calculateNewUnitCost({
+            foodCost: currentFood.foodCost,
+            unitsConsumedTotal: currentFood.unitsConsumedTotal,
+        });
+        setFoods(newFoods);
+    };
+
     //TODO: Add getFoodById, removeFood, change name for foods to only suport icons
     return {
         foods,
@@ -151,5 +236,6 @@ export const useFood = () => {
         setBuyerForFood,
         removeBuyerFromFood,
         toggleUnitsStatus,
+        setFoodUnitsAmount,
     };
 };

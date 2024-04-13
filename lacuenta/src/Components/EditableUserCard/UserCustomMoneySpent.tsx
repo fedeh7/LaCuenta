@@ -1,3 +1,4 @@
+import { INPUT_NUMBER } from '../../Constants';
 import { CustomInput } from '../CustomInput';
 import './UserCustomMoneySpent.scss';
 
@@ -16,7 +17,7 @@ export const UserCustomMoneySpent = ({
             <div className="user-spent-money-value">
                 <CustomInput
                     inputName={`userMoneySpent-${userId}`}
-                    inputType="number"
+                    inputType={INPUT_NUMBER}
                     onChange={handleOnUserSpentMoneyChange}
                     value={userMoneySpent}
                     placeholderText="No changes"
