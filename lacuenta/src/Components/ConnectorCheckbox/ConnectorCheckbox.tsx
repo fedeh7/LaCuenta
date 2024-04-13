@@ -58,6 +58,7 @@ export const ConnectorCheckbox = ({
         <p className={`connector-checkbox`}>{checkboxText}</p>
     );
 
+    // TODO: Quizas este elemento deberia ser un boton que abre un menu radial, si solo apreto lo consumo, si mantengo apretado abro el menu radial, puedo soltar en consumir, o soltar en comprar o soltar quizas en algo mas como setear unidades nose
     return (
         <div
             className={`connector-checkbox-container ${specialCssClasses}`}

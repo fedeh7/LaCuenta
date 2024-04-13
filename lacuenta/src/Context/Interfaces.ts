@@ -7,6 +7,9 @@ export interface foodInterface {
     dividedValue: number;
     peoplePaying: number[];
     buyer: number | null;
+    useUnits: boolean;
+    unitsConsumedTotal: number;
+    unitsCost: number;
 }
 
 export interface userInterface {
@@ -31,7 +34,13 @@ export interface editFoodInterface {
 }
 
 export interface foodsConsumedInterface {
-    [dynamic: number]: number;
+    [dynamic: number]: {
+        dividedValue: number;
+        useUnits: boolean;
+        unitsConsumed: number;
+        unitsCost: number;
+        unitsTotalSpent: number;
+    };
 }
 export interface foodsBoughtInterface {
     [dynamic: number]: number;

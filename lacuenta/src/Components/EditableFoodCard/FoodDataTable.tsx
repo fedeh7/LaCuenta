@@ -4,6 +4,7 @@ import { FoodName } from './FoodName';
 
 import './FoodDataTable.scss';
 import { foodValues } from '../../Constants/interfaces';
+import { FoodUnitsToggle } from './FoodUnitsToggle';
 
 export const FoodDataTable = ({
     foodName,
@@ -42,7 +43,7 @@ export const FoodDataTable = ({
                 />
             </div>
             <div className="food-toggle-type flex-centered">
-                <p>Future toggle</p>
+                <FoodUnitsToggle />
             </div>
         </div>
     );

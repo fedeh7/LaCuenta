@@ -45,6 +45,9 @@ export const useFood = () => {
                 dividedValue: 0,
                 peoplePaying: [],
                 buyer: null,
+                useUnits: false,
+                unitsConsumedTotal: 0,
+                unitsCost: 0,
             },
         };
         setFoods(newFoods);

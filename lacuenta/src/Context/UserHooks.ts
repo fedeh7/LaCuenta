@@ -11,17 +11,27 @@ const calculateUserExpectedPay = ({
 }: {
     currentUser: userInterface;
 }) => {
-    const currentFoodsValues = Object.values(currentUser.foods);
+    const currentFoodKeys = Object.keys(currentUser.foods);
+    const currentFoodsTotal = currentFoodKeys.reduce(
+        (accumulator: number, currentValue: string) => {
+            if (currentUser.foods[Number(currentValue)].useUnits) {
+                return (
+                    accumulator +
+                    currentUser.foods[Number(currentValue)].unitsTotalSpent
+                );
+            }
+            return (
+                accumulator +
+                currentUser.foods[Number(currentValue)].dividedValue
+            );
+        },
+        0,
+    );
     const initialMoneySpent = currentUser.initialMoneySpent
         ? currentUser.initialMoneySpent
         : 0;
     const moneySpentOnBoughtFoods = currentUser.moneySpentOnBoughtFoods;
-    let newExpectedPay = 0;
-
-    currentFoodsValues.forEach((foodValue) => {
-        const realFoodValue = foodValue ? foodValue : 0;
-        newExpectedPay += realFoodValue;
-    });
+    let newExpectedPay = currentFoodsTotal;
 
     newExpectedPay -= initialMoneySpent;
     newExpectedPay -= moneySpentOnBoughtFoods;
@@ -168,7 +178,10 @@ export const useUser = () => {
             const currentUser = newUsers[userId];
             currentUser.foods = {
                 ...currentUser.foods,
-                [foodId]: newFoodDividedValue,
+                [foodId]: {
+                    ...currentUser.foods[foodId],
+                    dividedValue: newFoodDividedValue,
+                },
             };
 
             currentUser.expectedPay = calculateUserExpectedPay({ currentUser });
@@ -198,8 +211,12 @@ export const useUser = () => {
         const currentUser = newUsers[userId];
         currentUser.foods = {
             ...currentUser.foods,
-            [foodId]: 0,
+            [foodId]: {
+                ...currentUser.foods[foodId],
+                dividedValue: 0,
+            },
         };
+
         setUsers(newUsers);
     };
 
