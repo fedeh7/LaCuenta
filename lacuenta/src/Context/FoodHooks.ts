@@ -132,6 +132,13 @@ export const useFood = () => {
 
         setFoods(newFoods);
     };
+
+    const toggleUnitsStatus = ({ foodId }: { foodId: number }) => {
+        const newFoods = { ...foods };
+        newFoods[foodId].useUnits = !newFoods[foodId].useUnits;
+        console.log('seted');
+        setFoods(newFoods);
+    };
     //TODO: Add getFoodById, removeFood, change name for foods to only suport icons
     return {
         foods,
@@ -143,5 +150,6 @@ export const useFood = () => {
         removeFoodFromState,
         setBuyerForFood,
         removeBuyerFromFood,
+        toggleUnitsStatus,
     };
 };

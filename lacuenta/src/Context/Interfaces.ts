@@ -110,4 +110,5 @@ export interface stateInterface {
         previousBuyerUserId: number | null;
         foodCost: number;
     }) => void;
+    handleToggleFoodUnitsStatus: ({ foodId }: { foodId: number }) => void;
 }

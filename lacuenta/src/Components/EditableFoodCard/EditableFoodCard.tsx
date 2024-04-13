@@ -7,9 +7,21 @@ import { Card } from '../Card';
 import { FoodDataTable } from './FoodDataTable';
 
 export const EditableFoodCard = ({ food }: { food: foodInterface }) => {
-    const { userList, users, editFoodValues, deleteFood } =
-        useContext(GlobalContext);
-    const { foodId, foodName, foodCost, dividedValue } = food;
+    const {
+        userList,
+        users,
+        editFoodValues,
+        deleteFood,
+        handleToggleFoodUnitsStatus,
+    } = useContext(GlobalContext);
+    const {
+        foodId,
+        foodName,
+        foodCost,
+        dividedValue,
+        useUnits,
+        unitsConsumedTotal,
+    } = food;
 
     const handleOnDeleteItem = () => {
         deleteFood({ foodId });
@@ -24,6 +36,10 @@ export const EditableFoodCard = ({ food }: { food: foodInterface }) => {
         updateFoodData({
             newFoodCost: e.target.value,
         });
+    };
+
+    const handleOnToggleUnits = (e: any) => {
+        handleToggleFoodUnitsStatus({ foodId });
     };
 
     const updateFoodData = ({
@@ -61,6 +77,9 @@ export const EditableFoodCard = ({ food }: { food: foodInterface }) => {
             foodName={foodName}
             handleOnFoodCostChange={handleOnCostChange}
             handleOnNameChange={handleOnNameChange}
+            useUnits={useUnits}
+            handleOnToggleUnits={handleOnToggleUnits}
+            totalUnits={unitsConsumedTotal}
         />
     );
     return (

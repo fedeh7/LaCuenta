@@ -23,9 +23,10 @@ const defaultState = {
     deleteFood: () => {},
     handleToggleBuyer: () => {},
     handleToggleUserConsumesFood: () => {},
+    handleToggleFoodUnitsStatus: () => {},
 } as stateInterface;
 
-export const GlobalContext = createContext(defaultState);
+export const GlobalContext = createContext<stateInterface>(null!);
 
 export const GlobalContextProvider = ({
     children,
@@ -42,6 +43,7 @@ export const GlobalContextProvider = ({
         removeFoodFromState,
         setBuyerForFood,
         removeBuyerFromFood,
+        toggleUnitsStatus,
     } = useFood();
     const {
         users,
@@ -206,6 +208,11 @@ export const GlobalContextProvider = ({
             setBuyer({ newBuyerUserId, previousBuyerUserId, foodId, foodCost });
         }
     };
+    const handleToggleFoodUnitsStatus = ({ foodId }: { foodId: number }) => {
+        toggleUnitsStatus({ foodId });
+        // const affectedUsers = foods[foodId].peoplePaying;
+        // updateAffectedUsers({affectedUsers, foodId,})
+    };
 
     //TODO: Find a way to divide the state in diferent values, to prevent unnesesary rerender of components because the object of the context is being reinstanced, maybe create individual contexts for each variable that depend on this bigger context. For example right now when you add a new food and there are no users, UserContainer rerenders and it shouldnt, since it has nothing diferent to render
     const values: stateInterface = {
@@ -226,6 +233,7 @@ export const GlobalContextProvider = ({
         deleteUser,
         handleToggleBuyer,
         handleToggleUserConsumesFood,
+        handleToggleFoodUnitsStatus,
     };
 
     return (
