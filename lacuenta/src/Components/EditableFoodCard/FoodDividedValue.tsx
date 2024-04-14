@@ -12,7 +12,9 @@ export const FoodDividedValue = ({
     useUnits: boolean;
 }) => {
     const labelText = useUnits ? 'Por unidad' : 'Por persona';
-    const valueToShow = useUnits ? unitsCost : foodDividedValue;
+    const valueToShow = Number(
+        (useUnits ? unitsCost : foodDividedValue).toFixed(2),
+    );
     return (
         <div className={`food-divided-value ${foodId}`}>
             <p className="food-divided-value-title">{labelText}</p>

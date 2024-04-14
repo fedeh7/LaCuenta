@@ -8,7 +8,9 @@ export const UserExpectedPay = ({
     userExpectedPay: number;
 }) => {
     const shouldPay = userExpectedPay >= 0;
-    const valueToShow = shouldPay ? userExpectedPay : userExpectedPay * -1;
+    const valueToShow = Number(
+        (shouldPay ? userExpectedPay : userExpectedPay * -1).toFixed(2),
+    );
     const moneyToPayTitle = shouldPay ? 'Paga: ' : 'Recibe: ';
 
     return (

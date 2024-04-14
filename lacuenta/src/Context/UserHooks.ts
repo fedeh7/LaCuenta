@@ -36,7 +36,7 @@ const calculateUserExpectedPay = ({
 
     newExpectedPay -= initialMoneySpent;
     newExpectedPay -= moneySpentOnBoughtFoods;
-    newExpectedPay = Number(newExpectedPay.toFixed(2));
+    newExpectedPay = Number(newExpectedPay);
 
     return newExpectedPay;
 };

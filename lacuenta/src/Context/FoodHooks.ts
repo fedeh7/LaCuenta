@@ -21,7 +21,7 @@ const calculateNewDividedValue = ({
     if (peoplePayingList.length) {
         newDividedValue = totalValue / peoplePayingList.length;
     }
-    newDividedValue = Number(newDividedValue.toFixed(2));
+    newDividedValue = Number(newDividedValue);
     return newDividedValue;
 };
 
@@ -37,7 +37,7 @@ const calculateNewUnitCost = ({
     if (unitsConsumedTotal) {
         newUnitCost = totalValue / unitsConsumedTotal;
     }
-    newUnitCost = Number(newUnitCost.toFixed(2));
+    newUnitCost = Number(newUnitCost);
 
     return newUnitCost;
 };
